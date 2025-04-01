@@ -3,6 +3,13 @@
 #include "HardwareSerial.h"
 
 #define MAX_RETRY 3 //最大重试次数
+#define Nearest  0   /*单圈就近回零*/
+#define Dir      1   /*单圈方向回零*/
+#define Senless  2   /*无限位回零*/
+#define Endstop  3   /*限位回零*/
+
+using  Trigger_ZeroMode = uint8_t;
+
 
 enum Emm42_CMDstatus{
   Emm42_OK,      //命令成功 
@@ -26,13 +33,29 @@ typedef enum {
     S_Conf  = 14,     /* 读取驱动参数 */
     S_State = 15,     /* 读取系统状态参数 */
     S_ORG   = 16,     /* 读取正在回零/回零失败状态标志位 */
-}SysParams_t;
+}SysParams_t;         /* 系统参数类*/
+
+
+
+// 原点回零参数类型
+struct Emm42_Zero_Param {
+    Trigger_ZeroMode mode;        /*回零模式*/
+    uint8_t  dir;                 /*回零方向*/
+    uint16_t Rpm;               /*回零速度*/
+    uint32_t OutTime;             /*回零超时时间*/
+    uint16_t Senless_CheckRPM;    /*无限位回零检测转速*/
+    uint16_t Senless_CheckMA;     /*无限位回零检测电流*/
+    uint16_t Senless_CheckTime;   /*无限位回零检测时间*/
+    uint8_t  auto_ToZero_Flag;    /*上电自动触发回零*/
+};
+
 
 
 //Emm42步进驱动类
 class Emm42_V5_0_Driver {
 public:
 
+/*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓构造函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/
     /**
     * @brief    默认构造函数
     * @param    void
@@ -42,8 +65,8 @@ public:
         id = 1;
         this->serial = &Serial;
         check_Byte = 0x6B;
-        is_serialEnable = false;
-        is_enable = false;
+        is_serialMotor_enable = false;
+        is_Motor_enable = false;
         bool block_protect = true;
     }
 
@@ -59,11 +82,15 @@ public:
         serial = Serial;
         id = ID;
         check_Byte = Check_Byte;
-        is_serialEnable = false;
-        is_enable = false;
+        is_serialMotor_enable = false;
+        is_Motor_enable = false;
         block_protect = Block_protect;
     }
+/*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
 
+
+/*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓使能函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/
+    
     /**
     * @brief    串口初始化
     * @param    void
@@ -71,7 +98,7 @@ public:
     */
     void serial_enable(){
         this->serial->begin(115200); //设置串口默认速率
-        this->is_serialEnable = true;
+        this->is_serialMotor_enable = true;
     }
 
      /**
@@ -80,8 +107,11 @@ public:
     * @retval   Emm42_CMDstatus：命令执行状态
     * @description: 发送使能指令，并接收电机返回值，返回值可能是成功，条件不满足，错误命令，串口未初始化。
     */
-    Emm42_CMDstatus enable(){
-        if(is_serialEnable == true){
+    Emm42_CMDstatus Emm_V5_Motor_enable(){
+        //初始化串口
+        serial_enable();
+        
+        if(is_serialMotor_enable == true){
         uint8_t len = 6;
         uint8_t cmd[6] = {id,0xF3,0xAB,0x01,0x00,check_Byte};
         
@@ -92,43 +122,264 @@ public:
         switch (cmd[2])
         {
         case 0x02:
-            is_enable = true;
+            is_Motor_enable = true;
             return Emm42_OK;
             break;
         case 0xE2:
-            is_enable = false;
+            is_Motor_enable = false;
             return Emm42_False;
             break;
         case 0xEE:
-            is_enable = false;
+            is_Motor_enable = false;
             return Emm42_Error;
             break;
         }
-        is_enable = false;
+        is_Motor_enable = false;
         return Emm42_Error;
        }
-       is_enable = false;
+       is_Motor_enable = false;
        return Emm42_SerialError ;   
     }
 
     
     /**
-    * @brief    电机同步
+    * @brief    开启电机同步
     * @param    void
     * @retval   Emm42_CMDstatus：命令执行状态
-    * @description: 发送使能指令，并接收电机返回值，返回值可能是成功，条件不满足，错误命令，串口未初始化。
+    * @description: 让多个电机进行同步运动。
     */
-    void sync_enable(){
-        
+   Emm42_CMDstatus sync_Motor_enable(){
+      uint8_t cmd[16] = {0};
+      
+      //装载命令
+      cmd[0] = id;       //控制目标电机
+      cmd[1] = 0xFF;     //功能码
+      cmd[2] = 0x66;     //辅助码
+      cmd[3] = this->check_Byte; //校验码
+      
+      send(cmd,4);
+      read(cmd,4);
+      if(cmd[2] == 0xE2){
+        return Emm42_False;
+      }else if(cmd[2] == 0xEE){
+        return Emm42_Error;
+      }
+      return Emm42_OK;
     }
+/*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+
+
+/*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓控制函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/
+    
+    /**
+    * @brief    将当前位置角度清零
+    * @param    void
+    * @retval   Emm42_CMDstatus
+    * @description: 让多个电机进行同步运动。
+    */
+   Emm42_CMDstatus Emm_V5_Reset_CurPos_To_Zero(){
+     uint8_t cmd[16] = {0};
+
+     //装载命令
+     cmd[0] = id;       //控制目标电机
+     cmd[1] = 0x0A;     //功能码
+     cmd[2] = 0x6D;     //辅助码
+     cmd[3] = this->check_Byte; //校验码
+     
+     send(cmd,4);
+     read(cmd,4);
+     if(cmd[2]==0xEE)
+     return Emm42_Error;
+     return Emm42_OK;
+   }
+
+    /**
+    * @brief    速度模式
+    * @param    dir ：方向       ，0为CW，其余值为CCW
+    * @param    vel ：速度       ，范围0 - 5000RPM
+    * @param    snF ：多机同步标志，false为不启用，true为启用
+    * @param    acc ：加速度     ，范围0 - 255，注意：0是直接启动(不需要加速度)
+    * @retval   Emm42_CMDstatus
+    * @description: 电机以指定速度和加速度运动,如果返回Emm42_False，可能是电机没使能或者触发了堵转保护
+    */
+   Emm42_CMDstatus Emm_V5_Vel_Control(uint8_t dir,uint8_t vel,bool snF = false,uint8_t acc=0){
+     uint8_t cmd[16] = {0};
+     //对速度限制函数
+     vel = vel>5000?5000:vel;
+     vel = vel<0?0:vel;
+
+     //装载命令
+     cmd[0] = id;       //控制目标电机
+     cmd[1] = 0xF6;     //功能码
+     cmd[2] = dir;      //方向
+     cmd[3] = (uint8_t)vel>>8;  //速度高8位
+     cmd[4] = (uint8_t)vel;     //速度低8位
+     cmd[5] = acc;      //加速度
+     cmd[6] = snF;      //多机同步标志
+     cmd[7] = this->check_Byte; //校验码
+     //发送
+     send(cmd,8);
+     read(cmd,4);
+     if(cmd[2]== 0x02){
+        return Emm42_OK;
+     }else if(cmd[2]== 0xE2){
+        return Emm42_False;
+     }
+     return Emm42_Error;
+    }
+
+    /**
+    * @brief    位置模式
+    * @param    dir ：方向        ，0为CW，其余值为CCW
+    * @param    vel ：速度(RPM)   ，范围0 - 5000RPM
+    * @param    clk ：脉冲数      ，范围0- (2^32 - 1)个  (默认16细分 3200为转一圈)
+    * @param    snF ：多机同步标志 ，false为不启用，true为启用(默认不启动同步控制)
+    * @param    acc ：加速度      ，范围0 - 255，注意：0是直接启动
+    * @param    raF ：相位/绝对标志，false为相对运动，true为绝对值运动(默认为绝对运动)
+    * @retval   Emm42_CMDstatus
+    */
+   Emm42_CMDstatus Emm_V5_Pos_Control(uint8_t dir, uint16_t vel,  uint32_t clk, bool snF=false,uint8_t acc=0, bool raF=true)
+    {
+    uint8_t cmd[16] = {0};
+    //对速度限制函数
+    vel = vel>5000?5000:vel;
+    vel = vel<0?0:vel;
+    //装载命令
+    cmd[0] = this->id;  
+    cmd[1]  =  0xFD;                      // 功能码
+    cmd[2]  =  dir;                       // 方向
+    cmd[3]  =  (uint8_t)(vel >> 8);       // 速度(RPM)高8位字节
+    cmd[4]  =  (uint8_t)(vel >> 0);       // 速度(RPM)低8位字节 
+    cmd[5]  =  acc;                       // 加速度，注意：0是直接启动
+    cmd[6]  =  (uint8_t)(clk >> 24);      // 脉冲数(bit24 - bit31)
+    cmd[7]  =  (uint8_t)(clk >> 16);      // 脉冲数(bit16 - bit23)
+    cmd[8]  =  (uint8_t)(clk >> 8);       // 脉冲数(bit8  - bit15)
+    cmd[9]  =  (uint8_t)(clk >> 0);       // 脉冲数(bit0  - bit7 )
+    cmd[10] =  raF;                       // 相位/绝对标志，false为相对运动，true为绝对值运动
+    cmd[11] =  snF;                       // 多机同步运动标志，false为不启用，true为启用
+    cmd[12] =  this->check_Byte;          // 校验字节
+    
+    send(cmd,13);
+    //读取返回命令
+    read(cmd,4);
+    if(cmd[2] == 0x02){
+        return Emm42_OK;
+    }else if(cmd[2]==0xE2){
+        return Emm42_False;
+    }else{
+        return Emm42_Error; 
+    };
+    }
+
+
+    /**
+     * @brief    立即停止（所有控制模式都通用）
+     * @param    snF   ：多机同步标志，false为不启用，true为启用(默认不启用)
+     * @retval   Emm42_CMDstatus
+     */
+    Emm42_CMDstatus Emm_V5_Stop_Now(bool snF = false)
+    {
+    uint8_t cmd[16] = {0};
+    
+    // 装载命令
+    cmd[0] =  id;                       // 地址
+    cmd[1] =  0xFE;                       // 功能码
+    cmd[2] =  0x98;                       // 辅助码
+    cmd[3] =  snF;                        // 多机同步运动标志
+    cmd[4] =  this->check_Byte;                       // 校验字节
+    // 发送命令
+    send(cmd, 5);
+    // 读取电机回传命令
+    read(cmd,4);
+    if(cmd[2] == 0x02){
+        return Emm42_OK;
+    }else if(cmd[2] == 0xE2){
+        return Emm42_False;
+    }
+    return Emm42_Error;
+    }
+
+
+/*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+
+/*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓回零函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/
+   
+    /**
+     * @brief    触发回零
+     * @param    snF   ：多机同步标志，false为不启用，true为启用
+     * @param    o_mode ：回零模式，0为单圈就近回零，1为单圈方向回零，2为多圈无限位碰撞回零，3为多圈有限位开关回零
+     * @retval   地址 + 功能码 + 命令状态 + 校验字节
+     */
+    Emm42_CMDstatus Emm_V5_TriggerToZero(bool snF = false,uint8_t o_mode = 2){
+        uint8_t cmd[16] = {0};
+        // 装载命令
+        cmd[0] =  id;                  // 地址
+        cmd[1] =  0x9A;                // 功能码
+        cmd[2] =  o_mode;              // 回零模式，0为单圈就近回零，1为单圈方向回零，2为多圈无限位碰撞回零，3为多圈有限位开关回零
+        cmd[3] =  snF;                 // 多机同步运动标志，false为不启用，true为启用
+        cmd[4] =  this->check_Byte;    // 校验字节
+            
+        // 发送命令
+        send(cmd,5);
+        // 接受命令
+        read(cmd,4);
+        
+        if(cmd[2] == 0x02){
+            return Emm42_OK;
+        }else if(cmd[2] == 0xE2){
+            return Emm42_False;
+        }
+        return Emm42_Error;
+    }
+
+    
+     /**
+     * @brief    读取回零函数参数
+     * @retval   Emm42_CMDstatus
+     */
+    Emm42_CMDstatus Emm_V5_ReadZeroParam(){
+        uint8_t cmd[3] = {0};
+        uint8_t data[18] = {0};
+        
+        // 装载命令
+        cmd[0] = id;
+        cmd[1] = 0x22;
+        cmd[2] = this->check_Byte;
+
+        // 发送命令
+        send(cmd,3);
+        delay(10);
+        // 接受命令
+        if(this->serial->available()==4){
+            return Emm42_Error;
+        }
+        read(data,18);
+        this->zero_Param.mode = data[2];
+        this->zero_Param.dir  = data[3];
+        this->zero_Param.Rpm  = (uint16_t)data[4]<<8 | data[5];
+        this->zero_Param.OutTime = (uint32_t)data[6]<<24 | (uint32_t)data[7]<<16 | (uint32_t)data[8]<<8 | data[9];
+        this->zero_Param.Senless_CheckRPM = (uint16_t)data[10]<<8 | data[11];
+        this->zero_Param.Senless_CheckMA = (uint16_t)data[12]<<8 | data[13];
+        this->zero_Param.Senless_CheckTime = (uint16_t)data[14]<<8 | data[15];
+        this->zero_Param.auto_ToZero_Flag = data[16];
+        return Emm42_OK;
+    }
+    
+
+/*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+
+/*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓读取函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/
+
+/*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
 
 private:
     HardwareSerial*serial;//设备绑定的串口
     uint8_t id;           //设备id
     uint8_t check_Byte;   //校验字节
-    bool is_serialEnable;        //串口是否初始化
-    bool is_enable;       //电机是否使能
+    bool is_serialMotor_enable;        //串口是否初始化
+    bool is_Motor_enable;       //电机是否使能
     bool block_protect;   //堵转保护(默认开启)
+    Emm42_Zero_Param zero_Param; //回零参数
 
     /**
     * @brief    发送数据
