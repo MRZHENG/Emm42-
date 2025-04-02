@@ -49,7 +49,13 @@ struct Emm42_Zero_Param {
     uint8_t  auto_ToZero_Flag;    /*上电自动触发回零*/
 };
 
-
+// 回零状态标志位
+struct Emm42_Zero_StatusFlag{
+    bool Backing_zero_Flag;    /*正在回零标志位*/
+    bool Coder_Ready_Flag;     /*编码器就绪标志位*/
+    bool Backing_False_Flag;   /*回零失败标志位*/
+    bool CheckDirgram_Flag;    /*校准表就绪标志位*/
+};
 
 //Emm42步进驱动类
 class Emm42_V5_0_Driver {
@@ -63,7 +69,7 @@ public:
    */
     Emm42_V5_0_Driver(){
         id = 1;
-        this->serial = &Serial;
+        this->serial = &Serial2;
         check_Byte = 0x6B;
         is_serialMotor_enable = false;
         is_Motor_enable = false;
@@ -234,11 +240,11 @@ public:
     * @param    vel ：速度(RPM)   ，范围0 - 5000RPM
     * @param    clk ：脉冲数      ，范围0- (2^32 - 1)个  (默认16细分 3200为转一圈)
     * @param    snF ：多机同步标志 ，false为不启用，true为启用(默认不启动同步控制)
-    * @param    acc ：加速度      ，范围0 - 255，注意：0是直接启动
     * @param    raF ：相位/绝对标志，false为相对运动，true为绝对值运动(默认为绝对运动)
+    * @param    acc ：加速度      ，范围0 - 255，注意：0是直接启动
     * @retval   Emm42_CMDstatus
     */
-   Emm42_CMDstatus Emm_V5_Pos_Control(uint8_t dir, uint16_t vel,  uint32_t clk, bool snF=false,uint8_t acc=0, bool raF=true)
+   Emm42_CMDstatus Emm_V5_Pos_Control(uint8_t dir, uint16_t vel,  uint32_t clk, bool snF=false, bool raF=true,uint8_t acc=0)
     {
     uint8_t cmd[16] = {0};
     //对速度限制函数
@@ -351,6 +357,7 @@ public:
         delay(10);
         // 接受命令
         if(this->serial->available()==4){
+            serial->flush();
             return Emm42_Error;
         }
         read(data,18);
@@ -365,10 +372,136 @@ public:
         return Emm42_OK;
     }
     
+    /**
+     * @brief    修改回零参数
+     * @param    addr  ：电机地址
+     * @param    o_mode ：回零模式，0为单圈就近回零，1为单圈方向回零，2为多圈无限位碰撞回零，3为多圈有限位开关回零
+     * @param    o_dir  ：回零方向，0为CW，其余值为CCW
+     * @param    o_vel  ：回零速度，单位：RPM（转/分钟）
+     * @param    o_tm   ：回零超时时间，单位：毫秒
+     * @param    sl_vel ：无限位碰撞回零检测转速，单位：RPM（转/分钟）
+     * @param    sl_ma  ：无限位碰撞回零检测电流，单位：Ma（毫安）
+     * @param    sl_ms  ：无限位碰撞回零检测时间，单位：Ms（毫秒）
+     * @param    potF   ：上电自动触发回零，false为不使能，true为使能  
+     * @param    svF   ：是否存储标志，false为不存储，true为存储 (默认存储)
+     * @retval   Emm42_CMDstatus  返回命令执行状态
+     */
+    Emm42_CMDstatus Emm_V5_Modify_ZeroParams(  uint8_t o_mode, uint8_t o_dir, uint16_t o_vel, uint32_t o_tm, uint16_t sl_vel, uint16_t sl_ma, uint16_t sl_ms, bool potF,bool svF = true)
+    {
+    uint8_t cmd[32] = {0};
+    
+    // 装载命令
+    cmd[0] =  id;                         // 地址
+    cmd[1] =  0x4C;                       // 功能码
+    cmd[2] =  0xAE;                       // 辅助码
+    cmd[3] =  svF;                        // 是否存储标志，false为不存储，true为存储
+    cmd[4] =  o_mode;                     // 回零模式，0为单圈就近回零，1为单圈方向回零，2为多圈无限位碰撞回零，3为多圈有限位开关回零
+    cmd[5] =  o_dir;                      // 回零方向
+    cmd[6]  =  (uint8_t)(o_vel >> 8);     // 回零速度(RPM)高8位字节
+    cmd[7]  =  (uint8_t)(o_vel >> 0);     // 回零速度(RPM)低8位字节 
+    cmd[8]  =  (uint8_t)(o_tm >> 24);     // 回零超时时间(bit24 - bit31)
+    cmd[9]  =  (uint8_t)(o_tm >> 16);     // 回零超时时间(bit16 - bit23)
+    cmd[10] =  (uint8_t)(o_tm >> 8);      // 回零超时时间(bit8  - bit15)
+    cmd[11] =  (uint8_t)(o_tm >> 0);      // 回零超时时间(bit0  - bit7 )
+    cmd[12] =  (uint8_t)(sl_vel >> 8);    // 无限位碰撞回零检测转速(RPM)高8位字节
+    cmd[13] =  (uint8_t)(sl_vel >> 0);    // 无限位碰撞回零检测转速(RPM)低8位字节 
+    cmd[14] =  (uint8_t)(sl_ma >> 8);     // 无限位碰撞回零检测电流(Ma)高8位字节
+    cmd[15] =  (uint8_t)(sl_ma >> 0);     // 无限位碰撞回零检测电流(Ma)低8位字节 
+    cmd[16] =  (uint8_t)(sl_ms >> 8);     // 无限位碰撞回零检测时间(Ms)高8位字节
+    cmd[17] =  (uint8_t)(sl_ms >> 0);     // 无限位碰撞回零检测时间(Ms)低8位字节
+    cmd[18] =  potF;                      // 上电自动触发回零，false为不使能，true为使能
+    cmd[19] =  this->check_Byte;          // 校验字节
+    // 发送命令
+    send(cmd,20);
+    // 读取接收的命令
+    read(cmd,4);
+    if(cmd[2] == 0x02){
+        return Emm42_OK;
+    }
+    return Emm42_Error;  
+    }
 
+    /**
+     * @brief    将当前位置清零
+     * @retval   Emm42_CMDstatus  返回命令执行状态
+     */
+    Emm42_CMDstatus Emm_V5_ClearPos(){
+        uint8_t cmd[4] = {0};
+        //装载命令
+        cmd[0] = id;                      // 地址
+        cmd[1] = 0x0A;                    // 功能码
+        cmd[2] = 0x6D;                    // 状态码
+        cmd[3] = this->check_Byte;        // 校验字节
+        //发送命令
+        send(cmd,4);
+        //接受命令
+        read(cmd,4);
+        if(cmd[2] == 0x02){
+            return Emm42_OK;
+        }
+        return Emm42_Error ;
+    }
 /*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
 
+
 /*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓读取函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/
+    /**
+     * @brief    读取电机的目标位置
+     * @retval   float返回电机的目标圈的位置
+     */
+    float Emm_V5_ReadTargetPos(){
+        uint8_t cmd[16] = {0};
+        //装载命令
+        cmd[0] = id;
+        cmd[1] = 0x33;
+        cmd[2] = check_Byte;
+        //发送命令
+        send(cmd,3);
+        //接受命令
+        delay(3);
+        if(serial->available()==4){
+            serial->flush();
+            return  0xFFFFFFFF;
+        }else{
+            read(cmd,8);
+        }
+        int32_t data = (int32_t)cmd[3]<<24 | (int32_t)cmd[4]<<16 | (int32_t)cmd[5]<<8 | cmd[6];
+        data = cmd[2]==0x00?data:-data;
+        return (float)data*360/65536;
+    }
+
+        /**
+     * @brief    读取电机的当前位置
+     * @retval   float返回电机当前的位置
+     */
+    float Emm_V5_ReadCurPos(){
+        uint8_t cmd[16] = {0};
+        //装载命令
+        cmd[0] = id;
+        cmd[1] = 0x36;
+        cmd[2] = check_Byte;
+        //发送命令
+        send(cmd,3);
+        //接受命令
+        delay(3);
+        if (serial->available() == 4)   
+        {
+            serial->flush();
+            return 0xFFFFFFFF;
+        }
+        else{
+            read(cmd,8);
+        }
+        int32_t data = (int32_t)cmd[3]<<24 | (int32_t)cmd[4]<<16 | (int32_t)cmd[5]<<8 | cmd[6];
+        data = cmd[2]==0x00?data:-data;
+        return (float)data*360/65536;
+    }
+
+        
+    
+   
+
+
 
 /*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
 
@@ -379,7 +512,11 @@ private:
     bool is_serialMotor_enable;        //串口是否初始化
     bool is_Motor_enable;       //电机是否使能
     bool block_protect;   //堵转保护(默认开启)
+
+    // 新添加的参数(需要后续添加到构造函数中去的)
     Emm42_Zero_Param zero_Param; //回零参数
+    Emm42_Zero_StatusFlag zero_StatusFlag; //回零状态标志位(暂时没有用到)
+
 
     /**
     * @brief    发送数据
