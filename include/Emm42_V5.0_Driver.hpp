@@ -2,6 +2,8 @@
 #define EMM42_V5_0_DRIVER_HPP_
 #include "HardwareSerial.h"
 
+//当前电机的修改是思路 定义系统参数类
+
 #define MAX_RETRY 3 //最大重试次数
 #define Nearest  0   /*单圈就近回零*/
 #define Dir      1   /*单圈方向回零*/
@@ -57,6 +59,17 @@ struct Emm42_Zero_StatusFlag{
     bool CheckDirgram_Flag;    /*校准表就绪标志位*/
 };
 
+// 电机状态标志位
+struct  Emm42_Motor_StatusFlag
+{
+   bool  Enable_Flag;        /*使能标志位*/
+   bool  InPosition_Flag;    /*到位标志位*/
+   bool  Block_Flag;         /*堵转标志位*/
+   bool  Block_Protect_Flag; /*堵转保护标志位*/
+};
+
+
+
 //Emm42步进驱动类
 class Emm42_V5_0_Driver {
 public:
@@ -72,8 +85,10 @@ public:
         this->serial = &Serial2;
         check_Byte = 0x6B;
         is_serialMotor_enable = false;
-        is_Motor_enable = false;
-        bool block_protect = true;
+        //是否使能
+        Motor_Status.Enable_Flag = false;
+        //是否开启堵转保护
+        Motor_Status.Block_Protect_Flag = true;
     }
 
     /**
@@ -89,7 +104,7 @@ public:
         id = ID;
         check_Byte = Check_Byte;
         is_serialMotor_enable = false;
-        is_Motor_enable = false;
+        Motor_Status.Enable_Flag =false;
         block_protect = Block_protect;
     }
 /*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
@@ -128,22 +143,22 @@ public:
         switch (cmd[2])
         {
         case 0x02:
-            is_Motor_enable = true;
+            Motor_Status.Enable_Flag = true;
             return Emm42_OK;
             break;
         case 0xE2:
-            is_Motor_enable = false;
+            Motor_Status.Enable_Flag = false;
             return Emm42_False;
             break;
         case 0xEE:
-            is_Motor_enable = false;
+            Motor_Status.Enable_Flag = false;
             return Emm42_Error;
             break;
         }
-        is_Motor_enable = false;
+        Motor_Status.Enable_Flag = false;
         return Emm42_Error;
        }
-       is_Motor_enable = false;
+       Motor_Status.Enable_Flag = false;
        return Emm42_SerialError ;   
     }
 
@@ -470,7 +485,7 @@ public:
         return (float)data*360/65536;
     }
 
-        /**
+    /**
      * @brief    读取电机的当前位置
      * @retval   float返回电机当前的位置
      */
@@ -497,21 +512,77 @@ public:
         return (float)data*360/65536;
     }
 
-        
+
+    /**
+     * @brief    读取电机的实时转速
+     * @retval   float返回电机当前的位置
+     */
+    uint16_t EmmV5_ReadCurRPM(){
+        uint8_t cmd[16] = {0};
+        uint16_t curRPM = 0;
+    
+        //装载命令
+        cmd[0] = id;
+        cmd[1] = 0x35;
+        cmd[2] = check_Byte;
+        //发送命令
+        send(cmd,3);
+        //接受命令
+        delay(1);
+        if(serial->available()==4){
+            serial->flush();
+            return  0xFFFF;
+        }else{
+            read(cmd,6);
+            curRPM = (uint16_t)cmd[3]<<8 | cmd[4];
+            curRPM = cmd[2]==0x00?curRPM:-curRPM;
+        }
+        return curRPM;
+    }
     
    
+     /**
+     * @brief    读取电机状态标志位
+     * @retval   Emm42_CMDstatus  返回命令执行状态
+     */
+    Emm42_CMDstatus Emm_V5_Read_MotorStatusFlag(){
+        uint8_t cmd[16] = {0};
+        //装载命令
+        cmd[0] = id;
+        cmd[1] = 0x3A;
+        cmd[2] = check_Byte;
+        //发送命令
+        send(cmd,3);
+        //接受命令
+        read(cmd,4);
+        if(cmd[1] == 0x00){
+            return Emm42_Error;
+        }
+        uint8_t tmp = cmd[2];
+        Motor_Status.Enable_Flag = tmp & 0x01;
+        Motor_Status.InPosition_Flag = tmp & 0x02;
+        Motor_Status.Block_Flag = tmp & 0x04;
+        Motor_Status.Block_Protect_Flag = tmp & 0x08;
+        return Emm42_OK;
+    }
+
+/*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+
+
+/*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓修改参数函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/
 
 
 
 /*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+
 
 private:
     HardwareSerial*serial;//设备绑定的串口
     uint8_t id;           //设备id
     uint8_t check_Byte;   //校验字节
     bool is_serialMotor_enable;        //串口是否初始化
-    bool is_Motor_enable;       //电机是否使能
     bool block_protect;   //堵转保护(默认开启)
+    Emm42_Motor_StatusFlag  Motor_Status; //电机状态标志位
 
     // 新添加的参数(需要后续添加到构造函数中去的)
     Emm42_Zero_Param zero_Param; //回零参数
