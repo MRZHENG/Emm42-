@@ -5,6 +5,8 @@
 //当前电机的修改是思路 定义系统参数类
 
 #define MAX_RETRY 3 //最大重试次数
+
+//回零模式定义
 #define Nearest  0   /*单圈就近回零*/
 #define Dir      1   /*单圈方向回零*/
 #define Senless  2   /*无限位回零*/
@@ -12,32 +14,13 @@
 
 using  Trigger_ZeroMode = uint8_t;
 
-
+//命令执行状态的枚举类型
 enum Emm42_CMDstatus{
   Emm42_OK,      //命令成功 
   Emm42_False,   //命令条件不满足
   Emm42_Error,    //错误命令
   Emm42_SerialError //串口未初始化
 };
-
-typedef enum {
-    S_VER   = 0,      /* 读取固件版本和对应的硬件版本 */
-    S_RL    = 1,      /* 读取读取相电阻和相电感 */
-    S_PID   = 2,      /* 读取PID参数 */
-    S_VBUS  = 3,      /* 读取总线电压 */
-    S_CPHA  = 5,      /* 读取相电流 */
-    S_ENCL  = 7,      /* 读取经过线性化校准后的编码器值 */
-    S_TPOS  = 8,      /* 读取电机目标位置角度 */
-    S_VEL   = 9,      /* 读取电机实时转速 */
-    S_CPOS  = 10,     /* 读取电机实时位置角度 */
-    S_PERR  = 11,     /* 读取电机位置误差角度 */
-    S_FLAG  = 13,     /* 读取使能/到位/堵转状态标志位 */
-    S_Conf  = 14,     /* 读取驱动参数 */
-    S_State = 15,     /* 读取系统状态参数 */
-    S_ORG   = 16,     /* 读取正在回零/回零失败状态标志位 */
-}SysParams_t;         /* 系统参数类*/
-
-
 
 // 原点回零参数类型
 struct Emm42_Zero_Param {
@@ -74,42 +57,6 @@ struct  Emm42_Motor_StatusFlag
 class Emm42_V5_0_Driver {
 public:
 
-/*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓构造函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/
-    /**
-    * @brief    默认构造函数
-    * @param    void
-    * @retval   void
-   */
-    Emm42_V5_0_Driver(){
-        id = 1;
-        this->serial = &Serial2;
-        check_Byte = 0x6B;
-        is_serialMotor_enable = false;
-        //是否使能
-        Motor_Status.Enable_Flag = false;
-        //是否开启堵转保护
-        Motor_Status.Block_Protect_Flag = true;
-    }
-
-    /**
-    * @brief    默认构造函数
-    * @param    Serial：设备绑定的串口
-    * @param    ID：设备id
-    * @param    Check_Byte：校验字节
-    * @param    Block_protect：堵转保护(默认开启)
-    * @retval   void
-   */
-    Emm42_V5_0_Driver(HardwareSerial *Serial,uint8_t ID,uint8_t Check_Byte = 0x6B,bool Block_protect = true){
-        serial = Serial;
-        id = ID;
-        check_Byte = Check_Byte;
-        is_serialMotor_enable = false;
-        Motor_Status.Enable_Flag =false;
-        block_protect = Block_protect;
-    }
-/*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
-
-
 /*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓使能函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/
     
     /**
@@ -132,14 +79,16 @@ public:
         //初始化串口
         serial_enable();
         
+        //串口初始成功就执行电机使能
         if(is_serialMotor_enable == true){
         uint8_t len = 6;
+        //命令格式：地址 + 0xF3 + 0xAB + 使能状态 + 多机同步标志 + 校验字节
         uint8_t cmd[6] = {id,0xF3,0xAB,0x01,0x00,check_Byte};
-        
         //发送使能指令
         send(cmd,len); 
         //接受电机返回值
         read(cmd,4);
+        //根据返回值判断命令执行状态
         switch (cmd[2])
         {
         case 0x02:
@@ -158,6 +107,7 @@ public:
         Motor_Status.Enable_Flag = false;
         return Emm42_Error;
        }
+
        Motor_Status.Enable_Flag = false;
        return Emm42_SerialError ;   
     }
@@ -223,13 +173,13 @@ public:
     * @retval   Emm42_CMDstatus
     * @description: 电机以指定速度和加速度运动,如果返回Emm42_False，可能是电机没使能或者触发了堵转保护
     */
-   Emm42_CMDstatus Emm_V5_Vel_Control(uint8_t dir,uint8_t vel,bool snF = false,uint8_t acc=0){
+   Emm42_CMDstatus Emm_V5_Vel_Control(uint8_t dir,uint16_t vel,bool snF = false,uint8_t acc=0){
      uint8_t cmd[16] = {0};
      //对速度限制函数
      vel = vel>5000?5000:vel;
      vel = vel<0?0:vel;
 
-     //装载命令
+     //装载命令  命令格式：地址 + 0xF6 + 方向 + 速度 + 加速度 + 多机同步标志 + 校验字节
      cmd[0] = id;       //控制目标电机
      cmd[1] = 0xF6;     //功能码
      cmd[2] = dir;      //方向
@@ -240,6 +190,7 @@ public:
      cmd[7] = this->check_Byte; //校验码
      //发送
      send(cmd,8);
+     //命令返回：地址 + 0xF6 + 命令状态 + 校验字节
      read(cmd,4);
      if(cmd[2]== 0x02){
         return Emm42_OK;
@@ -266,6 +217,7 @@ public:
     vel = vel>5000?5000:vel;
     vel = vel<0?0:vel;
     //装载命令
+    //命令格式：地址 +0xFD+ 方向 + 速度+ 加速度 + 脉冲数 + 相对/绝对模式标志+ 多机同步标志 + 校验字节
     cmd[0] = this->id;  
     cmd[1]  =  0xFD;                      // 功能码
     cmd[2]  =  dir;                       // 方向
@@ -282,6 +234,7 @@ public:
     
     send(cmd,13);
     //读取返回命令
+    //命令返回：地址 + 0xFD + 命令状态 + 校验字节
     read(cmd,4);
     if(cmd[2] == 0x02){
         return Emm42_OK;
@@ -303,14 +256,16 @@ public:
     uint8_t cmd[16] = {0};
     
     // 装载命令
-    cmd[0] =  id;                       // 地址
+    //命令格式：地址 + 0xFE + 0x98 + 多机同步标志 + 校验字节
+    cmd[0] =  id;                         // 地址
     cmd[1] =  0xFE;                       // 功能码
     cmd[2] =  0x98;                       // 辅助码
     cmd[3] =  snF;                        // 多机同步运动标志
-    cmd[4] =  this->check_Byte;                       // 校验字节
+    cmd[4] =  this->check_Byte;           // 校验字节
     // 发送命令
     send(cmd, 5);
     // 读取电机回传命令
+    // 命令返回：地址 + 0xFE + 命令状态 + 校验字节
     read(cmd,4);
     if(cmd[2] == 0x02){
         return Emm42_OK;
@@ -334,15 +289,16 @@ public:
     Emm42_CMDstatus Emm_V5_TriggerToZero(bool snF = false,uint8_t o_mode = 2){
         uint8_t cmd[16] = {0};
         // 装载命令
+        //命令格式：地址 + 0x9A + 回零模式 + 多机同步标志 + 校验字节
         cmd[0] =  id;                  // 地址
         cmd[1] =  0x9A;                // 功能码
         cmd[2] =  o_mode;              // 回零模式，0为单圈就近回零，1为单圈方向回零，2为多圈无限位碰撞回零，3为多圈有限位开关回零
         cmd[3] =  snF;                 // 多机同步运动标志，false为不启用，true为启用
-        cmd[4] =  this->check_Byte;    // 校验字节
-            
+        cmd[4] =  this->check_Byte;    // 校验字节  
         // 发送命令
         send(cmd,5);
         // 接受命令
+        // 命令返回：地址 + 0x9A + 命令状态 + 校验字节
         read(cmd,4);
         
         if(cmd[2] == 0x02){
@@ -363,6 +319,7 @@ public:
         uint8_t data[18] = {0};
         
         // 装载命令
+        // 命令格式：地址 + 0x22 + 校验字节
         cmd[0] = id;
         cmd[1] = 0x22;
         cmd[2] = this->check_Byte;
@@ -467,12 +424,14 @@ public:
     float Emm_V5_ReadTargetPos(){
         uint8_t cmd[16] = {0};
         //装载命令
+        //命令格式：地址 + 0x33 + 校验字节
         cmd[0] = id;
         cmd[1] = 0x33;
         cmd[2] = check_Byte;
         //发送命令
         send(cmd,3);
         //接受命令
+        //命令返回：地址 + 0x33 + 符号 + 电机目标位置 + 校验字节
         delay(3);
         if(serial->available()==4){
             serial->flush();
@@ -566,15 +525,130 @@ public:
         return Emm42_OK;
     }
 
+
+     /**
+     * @brief    返回电机到位标志位
+     * @retval   bool返回到位标志位
+     */
+    bool Emm_V5_Get_InPositionFlag(){
+        return Motor_Status.InPosition_Flag;
+    }
+     
+    /**
+     * @brief    返回电机使能标志位
+     * @retval   bool返回使能标志位
+     */
+    bool Emm_V5_Get_EnableFlag(){
+        return Motor_Status.Enable_Flag;
+    }
+
+    /**
+     * @brief    返回电机堵转标志位
+     * @retval   bool返回堵转标志位
+     */
+    bool Emm_V5_Get_BlockFlag(){
+        return Motor_Status.Block_Flag;
+    }
+
+    /**
+     * @brief    返回电机堵转保护标志位
+     * @retval   bool返回堵转保护标志位
+     */
+    bool Emm_V5_Get_BlockProtectFlag(){
+        return Motor_Status.Block_Protect_Flag;
+    }
+
+    /**
+     * @brief    读取回零状态标志位
+     * @retval   Emm42_CMDstatus  返回命令执行状态
+     */
+    Emm42_CMDstatus Emm_V5_Read_Zero_StatusFlag(){
+        uint8_t cmd[4] = {0};
+        //装载命令
+        cmd[0] = id;
+        cmd[1] = 0x3B;
+        cmd[2] = check_Byte;
+        //发送命令
+        send(cmd,3);
+        //接受命令
+        read(cmd,4);
+        if(cmd[2]==0xEE){
+         return Emm42_Error;
+        }
+        uint8_t tmp = cmd[2];
+        this->zero_StatusFlag.Coder_Ready_Flag = tmp & 0x01;
+        this->zero_StatusFlag.CheckDirgram_Flag = tmp & 0x02;
+        this->zero_StatusFlag.Backing_zero_Flag = tmp & 0x04;
+        this->zero_StatusFlag.Backing_False_Flag = tmp & 0x08;
+        return Emm42_OK;
+    }
+
+    /**
+     * @brief    返回编码器就绪状态标志位
+     * @retval   bool返回编码器就绪状态标志位
+     */
+    bool Emm_V5_Get_Coder_Ready_Flag(){
+        return this->zero_StatusFlag.Coder_Ready_Flag;
+    }
+
+    /**
+     * @brief    返回校准表就绪状态标志位
+     * @retval   bool返回校准表就绪状态标志位
+     */
+    bool Emm_V5_Get_CheckDirgram_Flag(){
+        return this->zero_StatusFlag.CheckDirgram_Flag;
+    }
+
+    /**
+     * @brief    返回正在回零标志位
+     * @retval   bool返回正在回零标志位
+     */
+    bool Emm_V5_Get_Backing_zero_Flag(){
+        return this->zero_StatusFlag.Backing_zero_Flag;
+    }
+
+    /**
+     * @brief    返回回零失败标志位
+     * @retval   bool返回回零失败标志位
+     */
+    bool Emm_V5_Get_Backing_False_Flag(){
+        return this->zero_StatusFlag.Backing_False_Flag;
+    }
+    
 /*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
 
 
-/*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓修改参数函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/
+/*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓构造函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/
+    /**
+    * @brief    默认构造函数
+    * @param    void
+    * @retval   void
+   */
+  Emm42_V5_0_Driver(){
+    id = 1;
+    this->serial = &Serial2;
+    check_Byte = 0x6B;
+    is_serialMotor_enable = false;
+    //读取电机当前的参数
+    Emm_V5_Read_MotorStatusFlag();
+}
 
-
-
+/**
+* @brief    默认构造函数
+* @param    Serial：设备绑定的串口
+* @param    ID：设备id
+* @param    Check_Byte：校验字节
+* @retval   void
+*/
+Emm42_V5_0_Driver(HardwareSerial *Serial,uint8_t ID,uint8_t Check_Byte = 0x6B){
+    serial = Serial;
+    id = ID;
+    check_Byte = Check_Byte;
+    is_serialMotor_enable = false;
+    //读取电机当前参数
+    Emm_V5_Read_MotorStatusFlag();
+}
 /*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
-
 
 private:
     HardwareSerial*serial;//设备绑定的串口
@@ -586,7 +660,7 @@ private:
 
     // 新添加的参数(需要后续添加到构造函数中去的)
     Emm42_Zero_Param zero_Param; //回零参数
-    Emm42_Zero_StatusFlag zero_StatusFlag; //回零状态标志位(暂时没有用到)
+    Emm42_Zero_StatusFlag zero_StatusFlag; //回零状态标志位
 
 
     /**
@@ -628,46 +702,6 @@ private:
         }
     }
      
-    /*
-    * @brief    读取系统数据参数
-    * @param    param：想要读取什么参数
-    * @param    need_delay：是否需要延时
-
-   */
-    /*
-    void read_(SysParams_t param,bool need_delay = true){
-        if(need_delay){
-            delay(1);
-        };
-        uint8_t i = 0;
-        uint8_t cmd[16] = {0};
-        //装载id 
-        cmd[i++] = this->id;
-        //装载对应的指令
-        switch(param)
-        {
-            case S_VER:  cmd[i++] = 0x1F;break; //读取固件版本和对应的硬件版本
-            case S_RL:   cmd[i++] = 0x20;break; //读取相电阻和相电感
-            case S_PID:  cmd[i++] = 0x21;break; //读取位置环PID参数
-            case S_VBUS: cmd[i++] = 0x24;break; //读取总线电压
-            case S_CPHA: cmd[i++] = 0x27;break; //读取相电流
-            case S_ENCL: cmd[i++] = 0x31;break; //读取经过线性化校准后的编码器值
-            case S_TPOS: cmd[i++] = 0x33;break; //读取电机目标位置
-            case S_VEL:  cmd[i++] = 0x35;break; //读取电机实时转速
-            case S_CPOS: cmd[i++] = 0x36;break; //读取电机实时位置
-            case S_PERR: cmd[i++] = 0x37;break; //读取电机位置误差
-            case S_FLAG: cmd[i++] = 0x3A;break; //读取电机状态标志位
-            case S_ORG:  cmd[i++] = 0x3B;break; //读取回零状态标志位
-            case S_Conf: cmd[i++] = 0x42;cmd[i++] = 0x6C;break; //读取驱动配置参数
-            case S_State:cmd[i++] = 0x43;cmd[i++] = 0x7A; break;
-            default: break;
-        }
-        cmd[i++] = this->check_Byte;  //校验字节
-
-        //发送指令
-        Serial.write(cmd,i);
-    }
-    */
 };
 
 
