@@ -1,0 +1,110 @@
+\doxysection{include/\+Emm42\+\_\+\+V5.0\+\_\+\+Driver.\+hpp 文件参考}
+\hypertarget{_emm42___v5_80___driver_8hpp}{}\label{_emm42___v5_80___driver_8hpp}\index{include/Emm42\_V5.0\_Driver.hpp@{include/Emm42\_V5.0\_Driver.hpp}}
+{\ttfamily \#include "{}Hardware\+Serial.\+h"{}}\newline
+\doxysubsubsection*{类}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_emm42___zero___param}{Emm42\+\_\+\+Zero\+\_\+\+Param}}
+\item 
+struct \mbox{\hyperlink{struct_emm42___zero___status_flag}{Emm42\+\_\+\+Zero\+\_\+\+Status\+Flag}}
+\item 
+struct \mbox{\hyperlink{struct_emm42___motor___status_flag}{Emm42\+\_\+\+Motor\+\_\+\+Status\+Flag}}
+\item 
+class \mbox{\hyperlink{class_emm42___v5__0___driver}{Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a01c3892c16d6330e486637967ab0289b}{MAX\+\_\+\+RETRY}}~3
+\item 
+\#define \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_aa1fc342825e84443de870bb44546fef6}{Nearest}}~0   /\texorpdfstring{$\ast$}{*}单圈就近回零\texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_abd521e03b15e479490b29cc75051beee}{Dir}}~1   /\texorpdfstring{$\ast$}{*}单圈方向回零\texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a2fa2ad43bb72178d66a3a0851a6ea970}{Senless}}~2   /\texorpdfstring{$\ast$}{*}无限位回零\texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a58e7970c61592ab2df475e17189d3dd1}{Endstop}}~3   /\texorpdfstring{$\ast$}{*}限位回零\texorpdfstring{$\ast$}{*}/
+\end{DoxyCompactItemize}
+\doxysubsubsection*{类型定义}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_ab1bb370625376cbf71688ba9b6bb640b}{Trigger\+\_\+\+Zero\+Mode}} = uint8\+\_\+t
+\end{DoxyCompactItemize}
+\doxysubsubsection*{枚举}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} \{ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd}{Emm42\+\_\+\+OK}}
+, \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca4506d122ebf18972e04b1130ac893c95}{Emm42\+\_\+\+False}}
+, \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}{Emm42\+\_\+\+Error}}
+, \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac2faefff617b8af2f81ed865b25f4bfe}{Emm42\+\_\+\+Serial\+Error}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\Hypertarget{_emm42___v5_80___driver_8hpp_abd521e03b15e479490b29cc75051beee}\index{Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}!Dir@{Dir}}
+\index{Dir@{Dir}!Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}}
+\doxysubsubsection{\texorpdfstring{Dir}{Dir}}
+{\footnotesize\ttfamily \label{_emm42___v5_80___driver_8hpp_abd521e03b15e479490b29cc75051beee} 
+\#define Dir~1   /\texorpdfstring{$\ast$}{*}单圈方向回零\texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{_emm42___v5_80___driver_8hpp_a58e7970c61592ab2df475e17189d3dd1}\index{Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}!Endstop@{Endstop}}
+\index{Endstop@{Endstop}!Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}}
+\doxysubsubsection{\texorpdfstring{Endstop}{Endstop}}
+{\footnotesize\ttfamily \label{_emm42___v5_80___driver_8hpp_a58e7970c61592ab2df475e17189d3dd1} 
+\#define Endstop~3   /\texorpdfstring{$\ast$}{*}限位回零\texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{_emm42___v5_80___driver_8hpp_a01c3892c16d6330e486637967ab0289b}\index{Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}!MAX\_RETRY@{MAX\_RETRY}}
+\index{MAX\_RETRY@{MAX\_RETRY}!Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}}
+\doxysubsubsection{\texorpdfstring{MAX\_RETRY}{MAX\_RETRY}}
+{\footnotesize\ttfamily \label{_emm42___v5_80___driver_8hpp_a01c3892c16d6330e486637967ab0289b} 
+\#define MAX\+\_\+\+RETRY~3}
+
+\Hypertarget{_emm42___v5_80___driver_8hpp_aa1fc342825e84443de870bb44546fef6}\index{Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}!Nearest@{Nearest}}
+\index{Nearest@{Nearest}!Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}}
+\doxysubsubsection{\texorpdfstring{Nearest}{Nearest}}
+{\footnotesize\ttfamily \label{_emm42___v5_80___driver_8hpp_aa1fc342825e84443de870bb44546fef6} 
+\#define Nearest~0   /\texorpdfstring{$\ast$}{*}单圈就近回零\texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{_emm42___v5_80___driver_8hpp_a2fa2ad43bb72178d66a3a0851a6ea970}\index{Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}!Senless@{Senless}}
+\index{Senless@{Senless}!Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}}
+\doxysubsubsection{\texorpdfstring{Senless}{Senless}}
+{\footnotesize\ttfamily \label{_emm42___v5_80___driver_8hpp_a2fa2ad43bb72178d66a3a0851a6ea970} 
+\#define Senless~2   /\texorpdfstring{$\ast$}{*}无限位回零\texorpdfstring{$\ast$}{*}/}
+
+
+
+\doxysubsection{类型定义说明}
+\Hypertarget{_emm42___v5_80___driver_8hpp_ab1bb370625376cbf71688ba9b6bb640b}\index{Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}!Trigger\_ZeroMode@{Trigger\_ZeroMode}}
+\index{Trigger\_ZeroMode@{Trigger\_ZeroMode}!Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}}
+\doxysubsubsection{\texorpdfstring{Trigger\_ZeroMode}{Trigger\_ZeroMode}}
+{\footnotesize\ttfamily \label{_emm42___v5_80___driver_8hpp_ab1bb370625376cbf71688ba9b6bb640b} 
+using \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_ab1bb370625376cbf71688ba9b6bb640b}{Trigger\+\_\+\+Zero\+Mode}} = uint8\+\_\+t}
+
+
+
+\doxysubsection{枚举类型说明}
+\Hypertarget{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}\index{Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}!Emm42\_CMDstatus@{Emm42\_CMDstatus}}
+\index{Emm42\_CMDstatus@{Emm42\_CMDstatus}!Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}}
+\doxysubsubsection{\texorpdfstring{Emm42\_CMDstatus}{Emm42\_CMDstatus}}
+{\footnotesize\ttfamily \label{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c} 
+enum \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}}}
+
+\begin{DoxyEnumFields}[2]{枚举值}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Emm42\_OK@{Emm42\_OK}!Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}}\index{Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}!Emm42\_OK@{Emm42\_OK}}}\Hypertarget{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd}\label{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd} 
+Emm42\+\_\+\+OK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Emm42\_False@{Emm42\_False}!Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}}\index{Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}!Emm42\_False@{Emm42\_False}}}\Hypertarget{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca4506d122ebf18972e04b1130ac893c95}\label{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca4506d122ebf18972e04b1130ac893c95} 
+Emm42\+\_\+\+False&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Emm42\_Error@{Emm42\_Error}!Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}}\index{Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}!Emm42\_Error@{Emm42\_Error}}}\Hypertarget{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}\label{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1} 
+Emm42\+\_\+\+Error&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Emm42\_SerialError@{Emm42\_SerialError}!Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}}\index{Emm42\_V5.0\_Driver.hpp@{Emm42\_V5.0\_Driver.hpp}!Emm42\_SerialError@{Emm42\_SerialError}}}\Hypertarget{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac2faefff617b8af2f81ed865b25f4bfe}\label{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac2faefff617b8af2f81ed865b25f4bfe} 
+Emm42\+\_\+\+Serial\+Error&\\
+\hline
+
+\end{DoxyEnumFields}

@@ -1,0 +1,558 @@
+\doxysection{Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver类 参考}
+\hypertarget{class_emm42___v5__0___driver}{}\label{class_emm42___v5__0___driver}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+
+
+{\ttfamily \#include $<$Emm42\+\_\+\+V5.\+0\+\_\+\+Driver.\+hpp$>$}
+
+\doxysubsubsection*{Public 成员函数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_emm42___v5__0___driver_a038b487466f4d086a8d15a9631bebfc5}{serial\+\_\+enable}} ()
+\begin{DoxyCompactList}\small\item\em 串口初始化 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} \mbox{\hyperlink{class_emm42___v5__0___driver_affb7e61118d67885f1084fc89deb99b2}{Emm\+\_\+\+V5\+\_\+\+Motor\+\_\+enable}} ()
+\begin{DoxyCompactList}\small\item\em 电机使能 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} \mbox{\hyperlink{class_emm42___v5__0___driver_af6a24ceb71c1a73c67236811f3c06230}{sync\+\_\+\+Motor\+\_\+enable}} ()
+\begin{DoxyCompactList}\small\item\em 开启电机同步 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} \mbox{\hyperlink{class_emm42___v5__0___driver_a600af347b31bdbc766b15696da1e944b}{Emm\+\_\+\+V5\+\_\+\+Reset\+\_\+\+Cur\+Pos\+\_\+\+To\+\_\+\+Zero}} ()
+\begin{DoxyCompactList}\small\item\em 将当前位置角度清零 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} \mbox{\hyperlink{class_emm42___v5__0___driver_ad8c01a77331ee5fcc2d0e2b3ccbb3951}{Emm\+\_\+\+V5\+\_\+\+Vel\+\_\+\+Control}} (uint8\+\_\+t dir, uint16\+\_\+t vel, bool snF=false, uint8\+\_\+t acc=0)
+\begin{DoxyCompactList}\small\item\em 速度模式 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} \mbox{\hyperlink{class_emm42___v5__0___driver_ae87d41a234a1e428a94503d3571219bf}{Emm\+\_\+\+V5\+\_\+\+Pos\+\_\+\+Control}} (uint8\+\_\+t dir, uint16\+\_\+t vel, uint32\+\_\+t clk, bool snF=false, bool raF=true, uint8\+\_\+t acc=0)
+\begin{DoxyCompactList}\small\item\em 位置模式 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} \mbox{\hyperlink{class_emm42___v5__0___driver_a9022b5abcb5173933e669bbf0d28151a}{Emm\+\_\+\+V5\+\_\+\+Stop\+\_\+\+Now}} (bool snF=false)
+\begin{DoxyCompactList}\small\item\em 立即停止（所有控制模式都通用） \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} \mbox{\hyperlink{class_emm42___v5__0___driver_ac2c90600ec602bb2756248f2632bcc25}{Emm\+\_\+\+V5\+\_\+\+Trigger\+To\+Zero}} (bool snF=false, uint8\+\_\+t o\+\_\+mode=2)
+\begin{DoxyCompactList}\small\item\em 触发回零(这个回零会按照默认的参数进行回零) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} \mbox{\hyperlink{class_emm42___v5__0___driver_a49f43ae6da5c5ae2a9e26fe4a1c26f53}{Emm\+\_\+\+V5\+\_\+\+Read\+Zero\+Param}} ()
+\begin{DoxyCompactList}\small\item\em 读取回零函数参数 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} \mbox{\hyperlink{class_emm42___v5__0___driver_ab89b1a021eef3394dfc0b9524d5f8082}{Emm\+\_\+\+V5\+\_\+\+Modify\+\_\+\+Zero\+Params}} (uint8\+\_\+t o\+\_\+mode, uint8\+\_\+t o\+\_\+dir, uint16\+\_\+t o\+\_\+vel, uint32\+\_\+t o\+\_\+tm, uint16\+\_\+t sl\+\_\+vel, uint16\+\_\+t sl\+\_\+ma, uint16\+\_\+t sl\+\_\+ms, bool potF, bool svF=true)
+\begin{DoxyCompactList}\small\item\em 修改回零参数 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} \mbox{\hyperlink{class_emm42___v5__0___driver_a49fe0649bd86501650137f2c03f9eb28}{Emm\+\_\+\+V5\+\_\+\+Clear\+Pos}} ()
+\begin{DoxyCompactList}\small\item\em 将当前位置清零 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_emm42___v5__0___driver_a739ae944725dfc1b9ca304d13b08febf}{Emm\+\_\+\+V5\+\_\+\+Read\+Target\+Pos}} ()
+\begin{DoxyCompactList}\small\item\em 读取电机的目标位置 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_emm42___v5__0___driver_ac1c78913275fae36a96ac6fbd4e91bb2}{Emm\+\_\+\+V5\+\_\+\+Read\+Cur\+Pos}} ()
+\begin{DoxyCompactList}\small\item\em 读取电机的当前位置 \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{class_emm42___v5__0___driver_a73927adf220c8ca08e735a774025fb1e}{Emm\+V5\+\_\+\+Read\+Cur\+RPM}} ()
+\begin{DoxyCompactList}\small\item\em 读取电机的实时转速 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} \mbox{\hyperlink{class_emm42___v5__0___driver_a3b7e8e9e91be36483e0ffa81c1f7e359}{Emm\+\_\+\+V5\+\_\+\+Read\+\_\+\+Motor\+Status\+Flag}} ()
+\begin{DoxyCompactList}\small\item\em 读取电机状态标志位 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_emm42___v5__0___driver_ab1b2a33c8a2c7fda756aa36d0689a20f}{Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+In\+Position\+Flag}} ()
+\begin{DoxyCompactList}\small\item\em 返回电机到位标志位 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_emm42___v5__0___driver_a5eb5949275fffbb441ec6ca691cdfbd4}{Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+Enable\+Flag}} ()
+\begin{DoxyCompactList}\small\item\em 返回电机使能标志位 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_emm42___v5__0___driver_a3e22bebcc30c010b545c39b2013b758d}{Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+Block\+Flag}} ()
+\begin{DoxyCompactList}\small\item\em 返回电机堵转标志位 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_emm42___v5__0___driver_af40b7b3b8a28a08854b143959795bad8}{Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+Block\+Protect\+Flag}} ()
+\begin{DoxyCompactList}\small\item\em 返回电机堵转保护标志位 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} \mbox{\hyperlink{class_emm42___v5__0___driver_a6a16cbec3e91b3114d22029c69592914}{Emm\+\_\+\+V5\+\_\+\+Read\+\_\+\+Zero\+\_\+\+Status\+Flag}} ()
+\begin{DoxyCompactList}\small\item\em 读取回零状态标志位 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_emm42___v5__0___driver_a49a67791c2628690be0b094238b8ef74}{Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+Coder\+\_\+\+Ready\+\_\+\+Flag}} ()
+\begin{DoxyCompactList}\small\item\em 返回编码器就绪状态标志位 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_emm42___v5__0___driver_ab1ed70714107aebc313d39fd04ea3314}{Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+Check\+Dirgram\+\_\+\+Flag}} ()
+\begin{DoxyCompactList}\small\item\em 返回校准表就绪状态标志位 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_emm42___v5__0___driver_ac081694a1513689bdc3a99c9b6b8b4de}{Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+Backing\+\_\+zero\+\_\+\+Flag}} ()
+\begin{DoxyCompactList}\small\item\em 返回正在回零标志位 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_emm42___v5__0___driver_ab553cfe59ea48223ef461def954756c7}{Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+Backing\+\_\+\+False\+\_\+\+Flag}} ()
+\begin{DoxyCompactList}\small\item\em 返回回零失败标志位 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_emm42___v5__0___driver_a81945de4d7bd4c8bd73220a2a25e1d87}{Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver}} ()
+\begin{DoxyCompactList}\small\item\em 默认构造函数 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_emm42___v5__0___driver_a6532250fe3f7c2e384d9453324869586}{Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver}} (Hardware\+Serial \texorpdfstring{$\ast$}{*}Serial, uint8\+\_\+t ID, uint8\+\_\+t Check\+\_\+\+Byte=0x6B)
+\begin{DoxyCompactList}\small\item\em 默认构造函数 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{构造及析构函数说明}
+\Hypertarget{class_emm42___v5__0___driver_a81945de4d7bd4c8bd73220a2a25e1d87}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm42\_V5\_0\_Driver()}{Emm42\_V5\_0\_Driver()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_a81945de4d7bd4c8bd73220a2a25e1d87} 
+Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+默认构造函数 
+
+
+\begin{DoxyParams}{参数}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{返回值}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_a6532250fe3f7c2e384d9453324869586}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm42\_V5\_0\_Driver()}{Emm42\_V5\_0\_Driver()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_a6532250fe3f7c2e384d9453324869586} 
+Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver (\begin{DoxyParamCaption}\item[{Hardware\+Serial \texorpdfstring{$\ast$}{*}}]{Serial}{, }\item[{uint8\+\_\+t}]{ID}{, }\item[{uint8\+\_\+t}]{Check\+\_\+\+Byte}{ = {\ttfamily 0x6B}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+默认构造函数 
+
+
+\begin{DoxyParams}{参数}
+{\em Serial：设备绑定的串口} & \\
+\hline
+{\em ID：设备id} & \\
+\hline
+{\em Check\+\_\+\+Byte：校验字节} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{返回值}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+
+
+\doxysubsection{成员函数说明}
+\Hypertarget{class_emm42___v5__0___driver_a49fe0649bd86501650137f2c03f9eb28}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_ClearPos@{Emm\_V5\_ClearPos}}
+\index{Emm\_V5\_ClearPos@{Emm\_V5\_ClearPos}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_ClearPos()}{Emm\_V5\_ClearPos()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_a49fe0649bd86501650137f2c03f9eb28} 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Clear\+Pos (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+将当前位置清零 
+
+
+\begin{DoxyRetVals}{返回值}
+{\em \doxylink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} & 返回命令执行状态 \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_ab553cfe59ea48223ef461def954756c7}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Get\_Backing\_False\_Flag@{Emm\_V5\_Get\_Backing\_False\_Flag}}
+\index{Emm\_V5\_Get\_Backing\_False\_Flag@{Emm\_V5\_Get\_Backing\_False\_Flag}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Get\_Backing\_False\_Flag()}{Emm\_V5\_Get\_Backing\_False\_Flag()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_ab553cfe59ea48223ef461def954756c7} 
+bool Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+Backing\+\_\+\+False\+\_\+\+Flag (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+返回回零失败标志位 
+
+
+\begin{DoxyRetVals}{返回值}
+{\em bool返回回零失败标志位} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_ac081694a1513689bdc3a99c9b6b8b4de}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Get\_Backing\_zero\_Flag@{Emm\_V5\_Get\_Backing\_zero\_Flag}}
+\index{Emm\_V5\_Get\_Backing\_zero\_Flag@{Emm\_V5\_Get\_Backing\_zero\_Flag}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Get\_Backing\_zero\_Flag()}{Emm\_V5\_Get\_Backing\_zero\_Flag()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_ac081694a1513689bdc3a99c9b6b8b4de} 
+bool Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+Backing\+\_\+zero\+\_\+\+Flag (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+返回正在回零标志位 
+
+
+\begin{DoxyRetVals}{返回值}
+{\em bool返回正在回零标志位} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_a3e22bebcc30c010b545c39b2013b758d}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Get\_BlockFlag@{Emm\_V5\_Get\_BlockFlag}}
+\index{Emm\_V5\_Get\_BlockFlag@{Emm\_V5\_Get\_BlockFlag}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Get\_BlockFlag()}{Emm\_V5\_Get\_BlockFlag()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_a3e22bebcc30c010b545c39b2013b758d} 
+bool Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+Block\+Flag (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+返回电机堵转标志位 
+
+
+\begin{DoxyRetVals}{返回值}
+{\em bool返回堵转标志位} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_af40b7b3b8a28a08854b143959795bad8}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Get\_BlockProtectFlag@{Emm\_V5\_Get\_BlockProtectFlag}}
+\index{Emm\_V5\_Get\_BlockProtectFlag@{Emm\_V5\_Get\_BlockProtectFlag}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Get\_BlockProtectFlag()}{Emm\_V5\_Get\_BlockProtectFlag()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_af40b7b3b8a28a08854b143959795bad8} 
+bool Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+Block\+Protect\+Flag (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+返回电机堵转保护标志位 
+
+
+\begin{DoxyRetVals}{返回值}
+{\em bool返回堵转保护标志位} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_ab1ed70714107aebc313d39fd04ea3314}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Get\_CheckDirgram\_Flag@{Emm\_V5\_Get\_CheckDirgram\_Flag}}
+\index{Emm\_V5\_Get\_CheckDirgram\_Flag@{Emm\_V5\_Get\_CheckDirgram\_Flag}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Get\_CheckDirgram\_Flag()}{Emm\_V5\_Get\_CheckDirgram\_Flag()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_ab1ed70714107aebc313d39fd04ea3314} 
+bool Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+Check\+Dirgram\+\_\+\+Flag (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+返回校准表就绪状态标志位 
+
+
+\begin{DoxyRetVals}{返回值}
+{\em bool返回校准表就绪状态标志位} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_a49a67791c2628690be0b094238b8ef74}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Get\_Coder\_Ready\_Flag@{Emm\_V5\_Get\_Coder\_Ready\_Flag}}
+\index{Emm\_V5\_Get\_Coder\_Ready\_Flag@{Emm\_V5\_Get\_Coder\_Ready\_Flag}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Get\_Coder\_Ready\_Flag()}{Emm\_V5\_Get\_Coder\_Ready\_Flag()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_a49a67791c2628690be0b094238b8ef74} 
+bool Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+Coder\+\_\+\+Ready\+\_\+\+Flag (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+返回编码器就绪状态标志位 
+
+
+\begin{DoxyRetVals}{返回值}
+{\em bool返回编码器就绪状态标志位} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_a5eb5949275fffbb441ec6ca691cdfbd4}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Get\_EnableFlag@{Emm\_V5\_Get\_EnableFlag}}
+\index{Emm\_V5\_Get\_EnableFlag@{Emm\_V5\_Get\_EnableFlag}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Get\_EnableFlag()}{Emm\_V5\_Get\_EnableFlag()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_a5eb5949275fffbb441ec6ca691cdfbd4} 
+bool Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+Enable\+Flag (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+返回电机使能标志位 
+
+
+\begin{DoxyRetVals}{返回值}
+{\em bool返回使能标志位} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_ab1b2a33c8a2c7fda756aa36d0689a20f}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Get\_InPositionFlag@{Emm\_V5\_Get\_InPositionFlag}}
+\index{Emm\_V5\_Get\_InPositionFlag@{Emm\_V5\_Get\_InPositionFlag}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Get\_InPositionFlag()}{Emm\_V5\_Get\_InPositionFlag()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_ab1b2a33c8a2c7fda756aa36d0689a20f} 
+bool Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Get\+\_\+\+In\+Position\+Flag (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+返回电机到位标志位 
+
+
+\begin{DoxyRetVals}{返回值}
+{\em bool返回到位标志位} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_ab89b1a021eef3394dfc0b9524d5f8082}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Modify\_ZeroParams@{Emm\_V5\_Modify\_ZeroParams}}
+\index{Emm\_V5\_Modify\_ZeroParams@{Emm\_V5\_Modify\_ZeroParams}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Modify\_ZeroParams()}{Emm\_V5\_Modify\_ZeroParams()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_ab89b1a021eef3394dfc0b9524d5f8082} 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Modify\+\_\+\+Zero\+Params (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{o\+\_\+mode}{, }\item[{uint8\+\_\+t}]{o\+\_\+dir}{, }\item[{uint16\+\_\+t}]{o\+\_\+vel}{, }\item[{uint32\+\_\+t}]{o\+\_\+tm}{, }\item[{uint16\+\_\+t}]{sl\+\_\+vel}{, }\item[{uint16\+\_\+t}]{sl\+\_\+ma}{, }\item[{uint16\+\_\+t}]{sl\+\_\+ms}{, }\item[{bool}]{potF}{, }\item[{bool}]{svF}{ = {\ttfamily true}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+修改回零参数 
+
+
+\begin{DoxyParams}{参数}
+{\em addr} & ：电机地址 \\
+\hline
+{\em o\+\_\+mode} & ：回零模式，0为单圈就近回零，1为单圈方向回零，2为多圈无限位碰撞回零，3为多圈有限位开关回零 \\
+\hline
+{\em o\+\_\+dir} & ：回零方向，0为\+CW，其余值为\+CCW \\
+\hline
+{\em o\+\_\+vel} & ：回零速度，单位：\+RPM（转/分钟） \\
+\hline
+{\em o\+\_\+tm} & ：回零超时时间，单位：毫秒 \\
+\hline
+{\em sl\+\_\+vel} & ：无限位碰撞回零检测转速，单位：\+RPM（转/分钟） \\
+\hline
+{\em sl\+\_\+ma} & ：无限位碰撞回零检测电流，单位：\+Ma（毫安） \\
+\hline
+{\em sl\+\_\+ms} & ：无限位碰撞回零检测时间，单位：\+Ms（毫秒） \\
+\hline
+{\em potF} & ：上电自动触发回零，false为不使能，true为使能 ~\newline
+ \\
+\hline
+{\em svF} & ：是否存储标志，false为不存储，true为存储 (默认存储) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{返回值}
+{\em \doxylink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} & 返回命令执行状态 \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_affb7e61118d67885f1084fc89deb99b2}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Motor\_enable@{Emm\_V5\_Motor\_enable}}
+\index{Emm\_V5\_Motor\_enable@{Emm\_V5\_Motor\_enable}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Motor\_enable()}{Emm\_V5\_Motor\_enable()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_affb7e61118d67885f1084fc89deb99b2} 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Motor\+\_\+enable (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+电机使能 
+
+
+\begin{DoxyParams}{参数}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{返回值}
+{\em Emm42\+\_\+\+CMDstatus：命令执行状态} & @description\+: 发送使能指令，并接收电机返回值，返回值可能是成功，条件不满足，错误命令，串口未初始化。 \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_ae87d41a234a1e428a94503d3571219bf}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Pos\_Control@{Emm\_V5\_Pos\_Control}}
+\index{Emm\_V5\_Pos\_Control@{Emm\_V5\_Pos\_Control}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Pos\_Control()}{Emm\_V5\_Pos\_Control()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_ae87d41a234a1e428a94503d3571219bf} 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Pos\+\_\+\+Control (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dir}{, }\item[{uint16\+\_\+t}]{vel}{, }\item[{uint32\+\_\+t}]{clk}{, }\item[{bool}]{snF}{ = {\ttfamily false}, }\item[{bool}]{raF}{ = {\ttfamily true}, }\item[{uint8\+\_\+t}]{acc}{ = {\ttfamily 0}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+位置模式 
+
+
+\begin{DoxyParams}{参数}
+{\em dir} & ：方向 ，0为\+CW，其余值为\+CCW \\
+\hline
+{\em vel} & ：速度(\+RPM) ，范围0 -\/ 5000RPM \\
+\hline
+{\em clk} & ：脉冲数 ，范围0-\/ (2\texorpdfstring{$^\wedge$}{\string^}32 -\/ 1)个 (默认16细分 3200为转一圈) \\
+\hline
+{\em snF} & ：多机同步标志 ，false为不启用，true为启用(默认不启动同步控制) \\
+\hline
+{\em raF} & ：相位/绝对标志，false为相对运动，true为绝对值运动(默认为绝对运动) \\
+\hline
+{\em acc} & ：加速度 ，范围0 -\/ 255，注意：0是直接启动 \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{返回值}
+{\em \doxylink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_a3b7e8e9e91be36483e0ffa81c1f7e359}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Read\_MotorStatusFlag@{Emm\_V5\_Read\_MotorStatusFlag}}
+\index{Emm\_V5\_Read\_MotorStatusFlag@{Emm\_V5\_Read\_MotorStatusFlag}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Read\_MotorStatusFlag()}{Emm\_V5\_Read\_MotorStatusFlag()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_a3b7e8e9e91be36483e0ffa81c1f7e359} 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Read\+\_\+\+Motor\+Status\+Flag (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+读取电机状态标志位 
+
+
+\begin{DoxyRetVals}{返回值}
+{\em \doxylink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} & 返回命令执行状态 \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_a6a16cbec3e91b3114d22029c69592914}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Read\_Zero\_StatusFlag@{Emm\_V5\_Read\_Zero\_StatusFlag}}
+\index{Emm\_V5\_Read\_Zero\_StatusFlag@{Emm\_V5\_Read\_Zero\_StatusFlag}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Read\_Zero\_StatusFlag()}{Emm\_V5\_Read\_Zero\_StatusFlag()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_a6a16cbec3e91b3114d22029c69592914} 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Read\+\_\+\+Zero\+\_\+\+Status\+Flag (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+读取回零状态标志位 
+
+
+\begin{DoxyRetVals}{返回值}
+{\em \doxylink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} & 返回命令执行状态 \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_ac1c78913275fae36a96ac6fbd4e91bb2}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_ReadCurPos@{Emm\_V5\_ReadCurPos}}
+\index{Emm\_V5\_ReadCurPos@{Emm\_V5\_ReadCurPos}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_ReadCurPos()}{Emm\_V5\_ReadCurPos()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_ac1c78913275fae36a96ac6fbd4e91bb2} 
+float Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Read\+Cur\+Pos (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+读取电机的当前位置 
+
+
+\begin{DoxyRetVals}{返回值}
+{\em float返回电机当前的位置} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_a739ae944725dfc1b9ca304d13b08febf}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_ReadTargetPos@{Emm\_V5\_ReadTargetPos}}
+\index{Emm\_V5\_ReadTargetPos@{Emm\_V5\_ReadTargetPos}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_ReadTargetPos()}{Emm\_V5\_ReadTargetPos()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_a739ae944725dfc1b9ca304d13b08febf} 
+float Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Read\+Target\+Pos (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+读取电机的目标位置 
+
+
+\begin{DoxyRetVals}{返回值}
+{\em float返回电机的目标圈的位置} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_a49f43ae6da5c5ae2a9e26fe4a1c26f53}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_ReadZeroParam@{Emm\_V5\_ReadZeroParam}}
+\index{Emm\_V5\_ReadZeroParam@{Emm\_V5\_ReadZeroParam}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_ReadZeroParam()}{Emm\_V5\_ReadZeroParam()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_a49f43ae6da5c5ae2a9e26fe4a1c26f53} 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Read\+Zero\+Param (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+读取回零函数参数 
+
+
+\begin{DoxyRetVals}{返回值}
+{\em \doxylink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_a600af347b31bdbc766b15696da1e944b}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Reset\_CurPos\_To\_Zero@{Emm\_V5\_Reset\_CurPos\_To\_Zero}}
+\index{Emm\_V5\_Reset\_CurPos\_To\_Zero@{Emm\_V5\_Reset\_CurPos\_To\_Zero}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Reset\_CurPos\_To\_Zero()}{Emm\_V5\_Reset\_CurPos\_To\_Zero()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_a600af347b31bdbc766b15696da1e944b} 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Reset\+\_\+\+Cur\+Pos\+\_\+\+To\+\_\+\+Zero (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+将当前位置角度清零 
+
+
+\begin{DoxyParams}{参数}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{返回值}
+{\em \doxylink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} & @description\+: 让多个电机进行同步运动。 \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_a9022b5abcb5173933e669bbf0d28151a}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Stop\_Now@{Emm\_V5\_Stop\_Now}}
+\index{Emm\_V5\_Stop\_Now@{Emm\_V5\_Stop\_Now}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Stop\_Now()}{Emm\_V5\_Stop\_Now()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_a9022b5abcb5173933e669bbf0d28151a} 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Stop\+\_\+\+Now (\begin{DoxyParamCaption}\item[{bool}]{snF}{ = {\ttfamily false}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+立即停止（所有控制模式都通用） 
+
+
+\begin{DoxyParams}{参数}
+{\em snF} & ：多机同步标志，false为不启用，true为启用(默认不启用) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{返回值}
+{\em \doxylink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_ac2c90600ec602bb2756248f2632bcc25}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_TriggerToZero@{Emm\_V5\_TriggerToZero}}
+\index{Emm\_V5\_TriggerToZero@{Emm\_V5\_TriggerToZero}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_TriggerToZero()}{Emm\_V5\_TriggerToZero()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_ac2c90600ec602bb2756248f2632bcc25} 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Trigger\+To\+Zero (\begin{DoxyParamCaption}\item[{bool}]{snF}{ = {\ttfamily false}, }\item[{uint8\+\_\+t}]{o\+\_\+mode}{ = {\ttfamily 2}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+触发回零(这个回零会按照默认的参数进行回零) 
+
+
+\begin{DoxyParams}{参数}
+{\em snF} & ：多机同步标志，false为不启用，true为启用 \\
+\hline
+{\em o\+\_\+mode} & ：回零模式，0为单圈就近回零，1为单圈方向回零，2为多圈无限位碰撞回零，3为多圈有限位开关回零 \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{返回值}
+{\em 地址} & + 功能码 + 命令状态 + 校验字节 \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_ad8c01a77331ee5fcc2d0e2b3ccbb3951}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!Emm\_V5\_Vel\_Control@{Emm\_V5\_Vel\_Control}}
+\index{Emm\_V5\_Vel\_Control@{Emm\_V5\_Vel\_Control}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{Emm\_V5\_Vel\_Control()}{Emm\_V5\_Vel\_Control()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_ad8c01a77331ee5fcc2d0e2b3ccbb3951} 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+\_\+\+V5\+\_\+\+Vel\+\_\+\+Control (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{dir}{, }\item[{uint16\+\_\+t}]{vel}{, }\item[{bool}]{snF}{ = {\ttfamily false}, }\item[{uint8\+\_\+t}]{acc}{ = {\ttfamily 0}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+速度模式 
+
+
+\begin{DoxyParams}{参数}
+{\em dir} & ：方向 ，0为\+CW，其余值为\+CCW \\
+\hline
+{\em vel} & ：速度 ，范围0 -\/ 5000RPM \\
+\hline
+{\em snF} & ：多机同步标志，false为不启用，true为启用 \\
+\hline
+{\em acc} & ：加速度 ，范围0 -\/ 255，注意：0是直接启动(不需要加速度) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{返回值}
+{\em \doxylink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} & @description\+: 电机以指定速度和加速度运动,如果返回\+Emm42\+\_\+\+False，可能是电机没使能或者触发了堵转保护 \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_a73927adf220c8ca08e735a774025fb1e}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!EmmV5\_ReadCurRPM@{EmmV5\_ReadCurRPM}}
+\index{EmmV5\_ReadCurRPM@{EmmV5\_ReadCurRPM}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{EmmV5\_ReadCurRPM()}{EmmV5\_ReadCurRPM()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_a73927adf220c8ca08e735a774025fb1e} 
+uint16\+\_\+t Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::\+Emm\+V5\+\_\+\+Read\+Cur\+RPM (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+读取电机的实时转速 
+
+
+\begin{DoxyRetVals}{返回值}
+{\em float返回电机当前的位置} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_a038b487466f4d086a8d15a9631bebfc5}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!serial\_enable@{serial\_enable}}
+\index{serial\_enable@{serial\_enable}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{serial\_enable()}{serial\_enable()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_a038b487466f4d086a8d15a9631bebfc5} 
+void Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::serial\+\_\+enable (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+串口初始化 
+
+
+\begin{DoxyParams}{参数}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{返回值}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{class_emm42___v5__0___driver_af6a24ceb71c1a73c67236811f3c06230}\index{Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}!sync\_Motor\_enable@{sync\_Motor\_enable}}
+\index{sync\_Motor\_enable@{sync\_Motor\_enable}!Emm42\_V5\_0\_Driver@{Emm42\_V5\_0\_Driver}}
+\doxysubsubsection{\texorpdfstring{sync\_Motor\_enable()}{sync\_Motor\_enable()}}
+{\footnotesize\ttfamily \label{class_emm42___v5__0___driver_af6a24ceb71c1a73c67236811f3c06230} 
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\+\_\+\+CMDstatus}} Emm42\+\_\+\+V5\+\_\+0\+\_\+\+Driver\+::sync\+\_\+\+Motor\+\_\+enable (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+开启电机同步 
+
+
+\begin{DoxyParams}{参数}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{返回值}
+{\em Emm42\+\_\+\+CMDstatus：命令执行状态} & @description\+: 让多个电机进行同步运动。 \\
+\hline
+\end{DoxyRetVals}
+
+
+该类的文档由以下文件生成\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_emm42___v5_80___driver_8hpp}{Emm42\+\_\+\+V5.\+0\+\_\+\+Driver.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,1246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Emm42_V5步进电机驱动函数文档: Emm42_V5_0_Driver类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Emm42_V5步进电机驱动函数文档<span id="projectnumber">&#160;version 1.0</span>
+   </div>
+   <div id="projectbrief">作者:MEZHENG</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="搜索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('class_emm42___v5__0___driver.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="class_emm42___v5__0___driver-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">Emm42_V5_0_Driver类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_emm42___v5_80___driver_8hpp_source.html">Emm42_V5.0_Driver.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a038b487466f4d086a8d15a9631bebfc5" id="r_a038b487466f4d086a8d15a9631bebfc5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a038b487466f4d086a8d15a9631bebfc5">serial_enable</a> ()</td></tr>
+<tr class="memdesc:a038b487466f4d086a8d15a9631bebfc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">串口初始化  <br /></td></tr>
+<tr class="separator:a038b487466f4d086a8d15a9631bebfc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affb7e61118d67885f1084fc89deb99b2" id="r_affb7e61118d67885f1084fc89deb99b2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affb7e61118d67885f1084fc89deb99b2">Emm_V5_Motor_enable</a> ()</td></tr>
+<tr class="memdesc:affb7e61118d67885f1084fc89deb99b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">电机使能  <br /></td></tr>
+<tr class="separator:affb7e61118d67885f1084fc89deb99b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6a24ceb71c1a73c67236811f3c06230" id="r_af6a24ceb71c1a73c67236811f3c06230"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af6a24ceb71c1a73c67236811f3c06230">sync_Motor_enable</a> ()</td></tr>
+<tr class="memdesc:af6a24ceb71c1a73c67236811f3c06230"><td class="mdescLeft">&#160;</td><td class="mdescRight">开启电机同步  <br /></td></tr>
+<tr class="separator:af6a24ceb71c1a73c67236811f3c06230"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a600af347b31bdbc766b15696da1e944b" id="r_a600af347b31bdbc766b15696da1e944b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a600af347b31bdbc766b15696da1e944b">Emm_V5_Reset_CurPos_To_Zero</a> ()</td></tr>
+<tr class="memdesc:a600af347b31bdbc766b15696da1e944b"><td class="mdescLeft">&#160;</td><td class="mdescRight">将当前位置角度清零  <br /></td></tr>
+<tr class="separator:a600af347b31bdbc766b15696da1e944b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8c01a77331ee5fcc2d0e2b3ccbb3951" id="r_ad8c01a77331ee5fcc2d0e2b3ccbb3951"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad8c01a77331ee5fcc2d0e2b3ccbb3951">Emm_V5_Vel_Control</a> (uint8_t dir, uint16_t vel, bool snF=false, uint8_t acc=0)</td></tr>
+<tr class="memdesc:ad8c01a77331ee5fcc2d0e2b3ccbb3951"><td class="mdescLeft">&#160;</td><td class="mdescRight">速度模式  <br /></td></tr>
+<tr class="separator:ad8c01a77331ee5fcc2d0e2b3ccbb3951"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae87d41a234a1e428a94503d3571219bf" id="r_ae87d41a234a1e428a94503d3571219bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae87d41a234a1e428a94503d3571219bf">Emm_V5_Pos_Control</a> (uint8_t dir, uint16_t vel, uint32_t clk, bool snF=false, bool raF=true, uint8_t acc=0)</td></tr>
+<tr class="memdesc:ae87d41a234a1e428a94503d3571219bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">位置模式  <br /></td></tr>
+<tr class="separator:ae87d41a234a1e428a94503d3571219bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9022b5abcb5173933e669bbf0d28151a" id="r_a9022b5abcb5173933e669bbf0d28151a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9022b5abcb5173933e669bbf0d28151a">Emm_V5_Stop_Now</a> (bool snF=false)</td></tr>
+<tr class="memdesc:a9022b5abcb5173933e669bbf0d28151a"><td class="mdescLeft">&#160;</td><td class="mdescRight">立即停止（所有控制模式都通用）  <br /></td></tr>
+<tr class="separator:a9022b5abcb5173933e669bbf0d28151a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2c90600ec602bb2756248f2632bcc25" id="r_ac2c90600ec602bb2756248f2632bcc25"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2c90600ec602bb2756248f2632bcc25">Emm_V5_TriggerToZero</a> (bool snF=false, uint8_t o_mode=2)</td></tr>
+<tr class="memdesc:ac2c90600ec602bb2756248f2632bcc25"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发回零(这个回零会按照默认的参数进行回零)  <br /></td></tr>
+<tr class="separator:ac2c90600ec602bb2756248f2632bcc25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49f43ae6da5c5ae2a9e26fe4a1c26f53" id="r_a49f43ae6da5c5ae2a9e26fe4a1c26f53"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49f43ae6da5c5ae2a9e26fe4a1c26f53">Emm_V5_ReadZeroParam</a> ()</td></tr>
+<tr class="memdesc:a49f43ae6da5c5ae2a9e26fe4a1c26f53"><td class="mdescLeft">&#160;</td><td class="mdescRight">读取回零函数参数  <br /></td></tr>
+<tr class="separator:a49f43ae6da5c5ae2a9e26fe4a1c26f53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab89b1a021eef3394dfc0b9524d5f8082" id="r_ab89b1a021eef3394dfc0b9524d5f8082"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab89b1a021eef3394dfc0b9524d5f8082">Emm_V5_Modify_ZeroParams</a> (uint8_t o_mode, uint8_t o_dir, uint16_t o_vel, uint32_t o_tm, uint16_t sl_vel, uint16_t sl_ma, uint16_t sl_ms, bool potF, bool svF=true)</td></tr>
+<tr class="memdesc:ab89b1a021eef3394dfc0b9524d5f8082"><td class="mdescLeft">&#160;</td><td class="mdescRight">修改回零参数  <br /></td></tr>
+<tr class="separator:ab89b1a021eef3394dfc0b9524d5f8082"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49fe0649bd86501650137f2c03f9eb28" id="r_a49fe0649bd86501650137f2c03f9eb28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49fe0649bd86501650137f2c03f9eb28">Emm_V5_ClearPos</a> ()</td></tr>
+<tr class="memdesc:a49fe0649bd86501650137f2c03f9eb28"><td class="mdescLeft">&#160;</td><td class="mdescRight">将当前位置清零  <br /></td></tr>
+<tr class="separator:a49fe0649bd86501650137f2c03f9eb28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a739ae944725dfc1b9ca304d13b08febf" id="r_a739ae944725dfc1b9ca304d13b08febf"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a739ae944725dfc1b9ca304d13b08febf">Emm_V5_ReadTargetPos</a> ()</td></tr>
+<tr class="memdesc:a739ae944725dfc1b9ca304d13b08febf"><td class="mdescLeft">&#160;</td><td class="mdescRight">读取电机的目标位置  <br /></td></tr>
+<tr class="separator:a739ae944725dfc1b9ca304d13b08febf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1c78913275fae36a96ac6fbd4e91bb2" id="r_ac1c78913275fae36a96ac6fbd4e91bb2"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1c78913275fae36a96ac6fbd4e91bb2">Emm_V5_ReadCurPos</a> ()</td></tr>
+<tr class="memdesc:ac1c78913275fae36a96ac6fbd4e91bb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">读取电机的当前位置  <br /></td></tr>
+<tr class="separator:ac1c78913275fae36a96ac6fbd4e91bb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73927adf220c8ca08e735a774025fb1e" id="r_a73927adf220c8ca08e735a774025fb1e"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73927adf220c8ca08e735a774025fb1e">EmmV5_ReadCurRPM</a> ()</td></tr>
+<tr class="memdesc:a73927adf220c8ca08e735a774025fb1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">读取电机的实时转速  <br /></td></tr>
+<tr class="separator:a73927adf220c8ca08e735a774025fb1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b7e8e9e91be36483e0ffa81c1f7e359" id="r_a3b7e8e9e91be36483e0ffa81c1f7e359"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b7e8e9e91be36483e0ffa81c1f7e359">Emm_V5_Read_MotorStatusFlag</a> ()</td></tr>
+<tr class="memdesc:a3b7e8e9e91be36483e0ffa81c1f7e359"><td class="mdescLeft">&#160;</td><td class="mdescRight">读取电机状态标志位  <br /></td></tr>
+<tr class="separator:a3b7e8e9e91be36483e0ffa81c1f7e359"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1b2a33c8a2c7fda756aa36d0689a20f" id="r_ab1b2a33c8a2c7fda756aa36d0689a20f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab1b2a33c8a2c7fda756aa36d0689a20f">Emm_V5_Get_InPositionFlag</a> ()</td></tr>
+<tr class="memdesc:ab1b2a33c8a2c7fda756aa36d0689a20f"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回电机到位标志位  <br /></td></tr>
+<tr class="separator:ab1b2a33c8a2c7fda756aa36d0689a20f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5eb5949275fffbb441ec6ca691cdfbd4" id="r_a5eb5949275fffbb441ec6ca691cdfbd4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5eb5949275fffbb441ec6ca691cdfbd4">Emm_V5_Get_EnableFlag</a> ()</td></tr>
+<tr class="memdesc:a5eb5949275fffbb441ec6ca691cdfbd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回电机使能标志位  <br /></td></tr>
+<tr class="separator:a5eb5949275fffbb441ec6ca691cdfbd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e22bebcc30c010b545c39b2013b758d" id="r_a3e22bebcc30c010b545c39b2013b758d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3e22bebcc30c010b545c39b2013b758d">Emm_V5_Get_BlockFlag</a> ()</td></tr>
+<tr class="memdesc:a3e22bebcc30c010b545c39b2013b758d"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回电机堵转标志位  <br /></td></tr>
+<tr class="separator:a3e22bebcc30c010b545c39b2013b758d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af40b7b3b8a28a08854b143959795bad8" id="r_af40b7b3b8a28a08854b143959795bad8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af40b7b3b8a28a08854b143959795bad8">Emm_V5_Get_BlockProtectFlag</a> ()</td></tr>
+<tr class="memdesc:af40b7b3b8a28a08854b143959795bad8"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回电机堵转保护标志位  <br /></td></tr>
+<tr class="separator:af40b7b3b8a28a08854b143959795bad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a16cbec3e91b3114d22029c69592914" id="r_a6a16cbec3e91b3114d22029c69592914"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a16cbec3e91b3114d22029c69592914">Emm_V5_Read_Zero_StatusFlag</a> ()</td></tr>
+<tr class="memdesc:a6a16cbec3e91b3114d22029c69592914"><td class="mdescLeft">&#160;</td><td class="mdescRight">读取回零状态标志位  <br /></td></tr>
+<tr class="separator:a6a16cbec3e91b3114d22029c69592914"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49a67791c2628690be0b094238b8ef74" id="r_a49a67791c2628690be0b094238b8ef74"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49a67791c2628690be0b094238b8ef74">Emm_V5_Get_Coder_Ready_Flag</a> ()</td></tr>
+<tr class="memdesc:a49a67791c2628690be0b094238b8ef74"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回编码器就绪状态标志位  <br /></td></tr>
+<tr class="separator:a49a67791c2628690be0b094238b8ef74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1ed70714107aebc313d39fd04ea3314" id="r_ab1ed70714107aebc313d39fd04ea3314"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab1ed70714107aebc313d39fd04ea3314">Emm_V5_Get_CheckDirgram_Flag</a> ()</td></tr>
+<tr class="memdesc:ab1ed70714107aebc313d39fd04ea3314"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回校准表就绪状态标志位  <br /></td></tr>
+<tr class="separator:ab1ed70714107aebc313d39fd04ea3314"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac081694a1513689bdc3a99c9b6b8b4de" id="r_ac081694a1513689bdc3a99c9b6b8b4de"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac081694a1513689bdc3a99c9b6b8b4de">Emm_V5_Get_Backing_zero_Flag</a> ()</td></tr>
+<tr class="memdesc:ac081694a1513689bdc3a99c9b6b8b4de"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回正在回零标志位  <br /></td></tr>
+<tr class="separator:ac081694a1513689bdc3a99c9b6b8b4de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab553cfe59ea48223ef461def954756c7" id="r_ab553cfe59ea48223ef461def954756c7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab553cfe59ea48223ef461def954756c7">Emm_V5_Get_Backing_False_Flag</a> ()</td></tr>
+<tr class="memdesc:ab553cfe59ea48223ef461def954756c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回回零失败标志位  <br /></td></tr>
+<tr class="separator:ab553cfe59ea48223ef461def954756c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81945de4d7bd4c8bd73220a2a25e1d87" id="r_a81945de4d7bd4c8bd73220a2a25e1d87"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81945de4d7bd4c8bd73220a2a25e1d87">Emm42_V5_0_Driver</a> ()</td></tr>
+<tr class="memdesc:a81945de4d7bd4c8bd73220a2a25e1d87"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认构造函数  <br /></td></tr>
+<tr class="separator:a81945de4d7bd4c8bd73220a2a25e1d87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6532250fe3f7c2e384d9453324869586" id="r_a6532250fe3f7c2e384d9453324869586"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6532250fe3f7c2e384d9453324869586">Emm42_V5_0_Driver</a> (HardwareSerial *Serial, uint8_t ID, uint8_t Check_Byte=0x6B)</td></tr>
+<tr class="memdesc:a6532250fe3f7c2e384d9453324869586"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认构造函数  <br /></td></tr>
+<tr class="separator:a6532250fe3f7c2e384d9453324869586"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a81945de4d7bd4c8bd73220a2a25e1d87" name="a81945de4d7bd4c8bd73220a2a25e1d87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81945de4d7bd4c8bd73220a2a25e1d87">&#9670;&#160;</a></span>Emm42_V5_0_Driver() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Emm42_V5_0_Driver::Emm42_V5_0_Driver </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>默认构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">void</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">void</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6532250fe3f7c2e384d9453324869586" name="a6532250fe3f7c2e384d9453324869586"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6532250fe3f7c2e384d9453324869586">&#9670;&#160;</a></span>Emm42_V5_0_Driver() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Emm42_V5_0_Driver::Emm42_V5_0_Driver </td>
+          <td>(</td>
+          <td class="paramtype">HardwareSerial *</td>          <td class="paramname"><span class="paramname"><em>Serial</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>ID</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>Check_Byte</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0x6B</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>默认构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Serial：设备绑定的串口</td><td></td></tr>
+    <tr><td class="paramname">ID：设备id</td><td></td></tr>
+    <tr><td class="paramname">Check_Byte：校验字节</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">void</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a49fe0649bd86501650137f2c03f9eb28" name="a49fe0649bd86501650137f2c03f9eb28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49fe0649bd86501650137f2c03f9eb28">&#9670;&#160;</a></span>Emm_V5_ClearPos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a> Emm42_V5_0_Driver::Emm_V5_ClearPos </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将当前位置清零 </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a></td><td>返回命令执行状态 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab553cfe59ea48223ef461def954756c7" name="ab553cfe59ea48223ef461def954756c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab553cfe59ea48223ef461def954756c7">&#9670;&#160;</a></span>Emm_V5_Get_Backing_False_Flag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Emm42_V5_0_Driver::Emm_V5_Get_Backing_False_Flag </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回回零失败标志位 </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool返回回零失败标志位</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac081694a1513689bdc3a99c9b6b8b4de" name="ac081694a1513689bdc3a99c9b6b8b4de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac081694a1513689bdc3a99c9b6b8b4de">&#9670;&#160;</a></span>Emm_V5_Get_Backing_zero_Flag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Emm42_V5_0_Driver::Emm_V5_Get_Backing_zero_Flag </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回正在回零标志位 </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool返回正在回零标志位</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3e22bebcc30c010b545c39b2013b758d" name="a3e22bebcc30c010b545c39b2013b758d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e22bebcc30c010b545c39b2013b758d">&#9670;&#160;</a></span>Emm_V5_Get_BlockFlag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Emm42_V5_0_Driver::Emm_V5_Get_BlockFlag </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回电机堵转标志位 </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool返回堵转标志位</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af40b7b3b8a28a08854b143959795bad8" name="af40b7b3b8a28a08854b143959795bad8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af40b7b3b8a28a08854b143959795bad8">&#9670;&#160;</a></span>Emm_V5_Get_BlockProtectFlag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Emm42_V5_0_Driver::Emm_V5_Get_BlockProtectFlag </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回电机堵转保护标志位 </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool返回堵转保护标志位</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab1ed70714107aebc313d39fd04ea3314" name="ab1ed70714107aebc313d39fd04ea3314"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1ed70714107aebc313d39fd04ea3314">&#9670;&#160;</a></span>Emm_V5_Get_CheckDirgram_Flag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Emm42_V5_0_Driver::Emm_V5_Get_CheckDirgram_Flag </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回校准表就绪状态标志位 </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool返回校准表就绪状态标志位</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a49a67791c2628690be0b094238b8ef74" name="a49a67791c2628690be0b094238b8ef74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49a67791c2628690be0b094238b8ef74">&#9670;&#160;</a></span>Emm_V5_Get_Coder_Ready_Flag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Emm42_V5_0_Driver::Emm_V5_Get_Coder_Ready_Flag </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回编码器就绪状态标志位 </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool返回编码器就绪状态标志位</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5eb5949275fffbb441ec6ca691cdfbd4" name="a5eb5949275fffbb441ec6ca691cdfbd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5eb5949275fffbb441ec6ca691cdfbd4">&#9670;&#160;</a></span>Emm_V5_Get_EnableFlag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Emm42_V5_0_Driver::Emm_V5_Get_EnableFlag </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回电机使能标志位 </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool返回使能标志位</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab1b2a33c8a2c7fda756aa36d0689a20f" name="ab1b2a33c8a2c7fda756aa36d0689a20f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1b2a33c8a2c7fda756aa36d0689a20f">&#9670;&#160;</a></span>Emm_V5_Get_InPositionFlag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Emm42_V5_0_Driver::Emm_V5_Get_InPositionFlag </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回电机到位标志位 </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool返回到位标志位</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab89b1a021eef3394dfc0b9524d5f8082" name="ab89b1a021eef3394dfc0b9524d5f8082"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab89b1a021eef3394dfc0b9524d5f8082">&#9670;&#160;</a></span>Emm_V5_Modify_ZeroParams()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a> Emm42_V5_0_Driver::Emm_V5_Modify_ZeroParams </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>o_mode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>o_dir</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>o_vel</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>o_tm</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>sl_vel</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>sl_ma</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>sl_ms</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>potF</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>svF</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>修改回零参数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">addr</td><td>：电机地址 </td></tr>
+    <tr><td class="paramname">o_mode</td><td>：回零模式，0为单圈就近回零，1为单圈方向回零，2为多圈无限位碰撞回零，3为多圈有限位开关回零 </td></tr>
+    <tr><td class="paramname">o_dir</td><td>：回零方向，0为CW，其余值为CCW </td></tr>
+    <tr><td class="paramname">o_vel</td><td>：回零速度，单位：RPM（转/分钟） </td></tr>
+    <tr><td class="paramname">o_tm</td><td>：回零超时时间，单位：毫秒 </td></tr>
+    <tr><td class="paramname">sl_vel</td><td>：无限位碰撞回零检测转速，单位：RPM（转/分钟） </td></tr>
+    <tr><td class="paramname">sl_ma</td><td>：无限位碰撞回零检测电流，单位：Ma（毫安） </td></tr>
+    <tr><td class="paramname">sl_ms</td><td>：无限位碰撞回零检测时间，单位：Ms（毫秒） </td></tr>
+    <tr><td class="paramname">potF</td><td>：上电自动触发回零，false为不使能，true为使能 <br  />
+ </td></tr>
+    <tr><td class="paramname">svF</td><td>：是否存储标志，false为不存储，true为存储 (默认存储) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a></td><td>返回命令执行状态 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="affb7e61118d67885f1084fc89deb99b2" name="affb7e61118d67885f1084fc89deb99b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affb7e61118d67885f1084fc89deb99b2">&#9670;&#160;</a></span>Emm_V5_Motor_enable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a> Emm42_V5_0_Driver::Emm_V5_Motor_enable </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>电机使能 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">void</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Emm42_CMDstatus：命令执行状态</td><td>@description: 发送使能指令，并接收电机返回值，返回值可能是成功，条件不满足，错误命令，串口未初始化。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae87d41a234a1e428a94503d3571219bf" name="ae87d41a234a1e428a94503d3571219bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae87d41a234a1e428a94503d3571219bf">&#9670;&#160;</a></span>Emm_V5_Pos_Control()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a> Emm42_V5_0_Driver::Emm_V5_Pos_Control </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>dir</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>vel</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>clk</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>snF</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>raF</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>acc</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>位置模式 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dir</td><td>：方向 ，0为CW，其余值为CCW </td></tr>
+    <tr><td class="paramname">vel</td><td>：速度(RPM) ，范围0 - 5000RPM </td></tr>
+    <tr><td class="paramname">clk</td><td>：脉冲数 ，范围0- (2^32 - 1)个 (默认16细分 3200为转一圈) </td></tr>
+    <tr><td class="paramname">snF</td><td>：多机同步标志 ，false为不启用，true为启用(默认不启动同步控制) </td></tr>
+    <tr><td class="paramname">raF</td><td>：相位/绝对标志，false为相对运动，true为绝对值运动(默认为绝对运动) </td></tr>
+    <tr><td class="paramname">acc</td><td>：加速度 ，范围0 - 255，注意：0是直接启动 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3b7e8e9e91be36483e0ffa81c1f7e359" name="a3b7e8e9e91be36483e0ffa81c1f7e359"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b7e8e9e91be36483e0ffa81c1f7e359">&#9670;&#160;</a></span>Emm_V5_Read_MotorStatusFlag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a> Emm42_V5_0_Driver::Emm_V5_Read_MotorStatusFlag </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>读取电机状态标志位 </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a></td><td>返回命令执行状态 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6a16cbec3e91b3114d22029c69592914" name="a6a16cbec3e91b3114d22029c69592914"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a16cbec3e91b3114d22029c69592914">&#9670;&#160;</a></span>Emm_V5_Read_Zero_StatusFlag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a> Emm42_V5_0_Driver::Emm_V5_Read_Zero_StatusFlag </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>读取回零状态标志位 </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a></td><td>返回命令执行状态 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac1c78913275fae36a96ac6fbd4e91bb2" name="ac1c78913275fae36a96ac6fbd4e91bb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1c78913275fae36a96ac6fbd4e91bb2">&#9670;&#160;</a></span>Emm_V5_ReadCurPos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Emm42_V5_0_Driver::Emm_V5_ReadCurPos </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>读取电机的当前位置 </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">float返回电机当前的位置</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a739ae944725dfc1b9ca304d13b08febf" name="a739ae944725dfc1b9ca304d13b08febf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a739ae944725dfc1b9ca304d13b08febf">&#9670;&#160;</a></span>Emm_V5_ReadTargetPos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Emm42_V5_0_Driver::Emm_V5_ReadTargetPos </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>读取电机的目标位置 </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">float返回电机的目标圈的位置</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a49f43ae6da5c5ae2a9e26fe4a1c26f53" name="a49f43ae6da5c5ae2a9e26fe4a1c26f53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49f43ae6da5c5ae2a9e26fe4a1c26f53">&#9670;&#160;</a></span>Emm_V5_ReadZeroParam()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a> Emm42_V5_0_Driver::Emm_V5_ReadZeroParam </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>读取回零函数参数 </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a600af347b31bdbc766b15696da1e944b" name="a600af347b31bdbc766b15696da1e944b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a600af347b31bdbc766b15696da1e944b">&#9670;&#160;</a></span>Emm_V5_Reset_CurPos_To_Zero()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a> Emm42_V5_0_Driver::Emm_V5_Reset_CurPos_To_Zero </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将当前位置角度清零 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">void</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a></td><td>@description: 让多个电机进行同步运动。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9022b5abcb5173933e669bbf0d28151a" name="a9022b5abcb5173933e669bbf0d28151a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9022b5abcb5173933e669bbf0d28151a">&#9670;&#160;</a></span>Emm_V5_Stop_Now()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a> Emm42_V5_0_Driver::Emm_V5_Stop_Now </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>snF</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>立即停止（所有控制模式都通用） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">snF</td><td>：多机同步标志，false为不启用，true为启用(默认不启用) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac2c90600ec602bb2756248f2632bcc25" name="ac2c90600ec602bb2756248f2632bcc25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2c90600ec602bb2756248f2632bcc25">&#9670;&#160;</a></span>Emm_V5_TriggerToZero()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a> Emm42_V5_0_Driver::Emm_V5_TriggerToZero </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>snF</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>o_mode</em></span><span class="paramdefsep"> = </span><span class="paramdefval">2</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>触发回零(这个回零会按照默认的参数进行回零) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">snF</td><td>：多机同步标志，false为不启用，true为启用 </td></tr>
+    <tr><td class="paramname">o_mode</td><td>：回零模式，0为单圈就近回零，1为单圈方向回零，2为多圈无限位碰撞回零，3为多圈有限位开关回零 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">地址</td><td>+ 功能码 + 命令状态 + 校验字节 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad8c01a77331ee5fcc2d0e2b3ccbb3951" name="ad8c01a77331ee5fcc2d0e2b3ccbb3951"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8c01a77331ee5fcc2d0e2b3ccbb3951">&#9670;&#160;</a></span>Emm_V5_Vel_Control()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a> Emm42_V5_0_Driver::Emm_V5_Vel_Control </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>dir</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>vel</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>snF</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>acc</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>速度模式 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dir</td><td>：方向 ，0为CW，其余值为CCW </td></tr>
+    <tr><td class="paramname">vel</td><td>：速度 ，范围0 - 5000RPM </td></tr>
+    <tr><td class="paramname">snF</td><td>：多机同步标志，false为不启用，true为启用 </td></tr>
+    <tr><td class="paramname">acc</td><td>：加速度 ，范围0 - 255，注意：0是直接启动(不需要加速度) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a></td><td>@description: 电机以指定速度和加速度运动,如果返回Emm42_False，可能是电机没使能或者触发了堵转保护 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a73927adf220c8ca08e735a774025fb1e" name="a73927adf220c8ca08e735a774025fb1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73927adf220c8ca08e735a774025fb1e">&#9670;&#160;</a></span>EmmV5_ReadCurRPM()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t Emm42_V5_0_Driver::EmmV5_ReadCurRPM </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>读取电机的实时转速 </p>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">float返回电机当前的位置</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a038b487466f4d086a8d15a9631bebfc5" name="a038b487466f4d086a8d15a9631bebfc5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a038b487466f4d086a8d15a9631bebfc5">&#9670;&#160;</a></span>serial_enable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Emm42_V5_0_Driver::serial_enable </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>串口初始化 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">void</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">void</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af6a24ceb71c1a73c67236811f3c06230" name="af6a24ceb71c1a73c67236811f3c06230"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6a24ceb71c1a73c67236811f3c06230">&#9670;&#160;</a></span>sync_Motor_enable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_emm42___v5_80___driver_8hpp.html#a39dc0632bad5c787336867d5809f5d1c">Emm42_CMDstatus</a> Emm42_V5_0_Driver::sync_Motor_enable </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>开启电机同步 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">void</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>返回值</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Emm42_CMDstatus：命令执行状态</td><td>@description: 让多个电机进行同步运动。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>include/<a class="el" href="_emm42___v5_80___driver_8hpp_source.html">Emm42_V5.0_Driver.hpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_emm42___v5__0___driver.html">Emm42_V5_0_Driver</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

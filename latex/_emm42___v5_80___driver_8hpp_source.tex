@@ -1,0 +1,572 @@
+\doxysection{Emm42\+\_\+\+V5.0\+\_\+\+Driver.\+hpp}
+\hypertarget{_emm42___v5_80___driver_8hpp_source}{}\label{_emm42___v5_80___driver_8hpp_source}\index{include/Emm42\_V5.0\_Driver.hpp@{include/Emm42\_V5.0\_Driver.hpp}}
+\mbox{\hyperlink{_emm42___v5_80___driver_8hpp}{浏览该文件的文档.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ EMM42\_V5\_0\_DRIVER\_HPP\_}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ EMM42\_V5\_0\_DRIVER\_HPP\_}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}HardwareSerial.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{comment}{//当前电机的修改是思路\ 定义系统参数类}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ MAX\_RETRY\ 3\ }\textcolor{comment}{//最大重试次数}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{comment}{//回零模式定义}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ Nearest\ \ 0\ \ \ }\textcolor{comment}{/*单圈就近回零*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ Dir\ \ \ \ \ \ 1\ \ \ }\textcolor{comment}{/*单圈方向回零*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ Senless\ \ 2\ \ \ }\textcolor{comment}{/*无限位回零*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ Endstop\ \ 3\ \ \ }\textcolor{comment}{/*限位回零*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{using\ \ }\mbox{\hyperlink{_emm42___v5_80___driver_8hpp_ab1bb370625376cbf71688ba9b6bb640b}{Trigger\_ZeroMode}}\ =\ uint8\_t;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{comment}{//命令执行状态的枚举类型}}
+\DoxyCodeLine{00018\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\_CMDstatus}}\{}
+\DoxyCodeLine{00019\ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd}{Emm42\_OK}},\ \ \ \ \ \ \textcolor{comment}{//命令成功\ }}
+\DoxyCodeLine{00020\ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca4506d122ebf18972e04b1130ac893c95}{Emm42\_False}},\ \ \ \textcolor{comment}{//命令条件不满足}}
+\DoxyCodeLine{00021\ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}{Emm42\_Error}},\ \ \ \ \textcolor{comment}{//错误命令}}
+\DoxyCodeLine{00022\ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac2faefff617b8af2f81ed865b25f4bfe}{Emm42\_SerialError}}\ \textcolor{comment}{//串口未初始化}}
+\DoxyCodeLine{00023\ \};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{comment}{//\ 原点回零参数类型}}
+\DoxyCodeLine{00026\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_emm42___zero___param}{Emm42\_Zero\_Param}}\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_ab1bb370625376cbf71688ba9b6bb640b}{Trigger\_ZeroMode}}\ \mbox{\hyperlink{struct_emm42___zero___param_a3b187face847e41d67a42941947a04b8}{mode}};\ \ \ \ \ \ \ \ \textcolor{comment}{/*回零模式*/}}
+\DoxyCodeLine{00028\ \ \ \ \ uint8\_t\ \ \mbox{\hyperlink{struct_emm42___zero___param_a414d963d009553d39a38fb68a179ef0a}{dir}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*回零方向*/}}
+\DoxyCodeLine{00029\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{struct_emm42___zero___param_a1b8769c88b4750461720f79e1deca4f5}{Rpm}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*回零速度*/}}
+\DoxyCodeLine{00030\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{struct_emm42___zero___param_ab0e18711337afb64f018229811e867a8}{OutTime}};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*回零超时时间*/}}
+\DoxyCodeLine{00031\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{struct_emm42___zero___param_a9277b7d561ef998f99aa28ec5cae3e73}{Senless\_CheckRPM}};\ \ \ \ \textcolor{comment}{/*无限位回零检测转速*/}}
+\DoxyCodeLine{00032\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{struct_emm42___zero___param_abe14e71df9674a4f8415f9ea9e471d68}{Senless\_CheckMA}};\ \ \ \ \ \textcolor{comment}{/*无限位回零检测电流*/}}
+\DoxyCodeLine{00033\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{struct_emm42___zero___param_a64b0aca2cb6e6953ccbe100abfbad537}{Senless\_CheckTime}};\ \ \ \textcolor{comment}{/*无限位回零检测时间*/}}
+\DoxyCodeLine{00034\ \ \ \ \ uint8\_t\ \ \mbox{\hyperlink{struct_emm42___zero___param_a62db57ca21b8fabc6b51d1145956e7ad}{auto\_ToZero\_Flag}};\ \ \ \ \textcolor{comment}{/*上电自动触发回零*/}}
+\DoxyCodeLine{00035\ \};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ 回零状态标志位}}
+\DoxyCodeLine{00038\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_emm42___zero___status_flag}{Emm42\_Zero\_StatusFlag}}\{}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_emm42___zero___status_flag_af402c7863565f4ab1e9db6eaeb65aef4}{Backing\_zero\_Flag}};\ \ \ \ \textcolor{comment}{/*正在回零标志位*/}}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_emm42___zero___status_flag_a8b6663eb91fab5f6808d7413891d5fb1}{Coder\_Ready\_Flag}};\ \ \ \ \ \textcolor{comment}{/*编码器就绪标志位*/}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_emm42___zero___status_flag_a55a61d9ff3beed56fb7e5abab45d3bf2}{Backing\_False\_Flag}};\ \ \ \textcolor{comment}{/*回零失败标志位*/}}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_emm42___zero___status_flag_aaf7937e1cc7d1c2b5817e8a8fe77e527}{CheckDirgram\_Flag}};\ \ \ \ \textcolor{comment}{/*校准表就绪标志位*/}}
+\DoxyCodeLine{00043\ \};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ 电机状态标志位}}
+\DoxyCodeLine{00046\ \textcolor{keyword}{struct\ \ }\mbox{\hyperlink{struct_emm42___motor___status_flag}{Emm42\_Motor\_StatusFlag}}}
+\DoxyCodeLine{00047\ \{}
+\DoxyCodeLine{00048\ \ \ \ \textcolor{keywordtype}{bool}\ \ \mbox{\hyperlink{struct_emm42___motor___status_flag_a7c43eef0a8654a57cccc648934442b7a}{Enable\_Flag}};\ \ \ \ \ \ \ \ \textcolor{comment}{/*使能标志位*/}}
+\DoxyCodeLine{00049\ \ \ \ \textcolor{keywordtype}{bool}\ \ \mbox{\hyperlink{struct_emm42___motor___status_flag_a7ec6d24220f4324e13239d7b44480c4b}{InPosition\_Flag}};\ \ \ \ \textcolor{comment}{/*到位标志位*/}}
+\DoxyCodeLine{00050\ \ \ \ \textcolor{keywordtype}{bool}\ \ \mbox{\hyperlink{struct_emm42___motor___status_flag_a7b8ced63f387408e96c1ccba01010cb3}{Block\_Flag}};\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*堵转标志位*/}}
+\DoxyCodeLine{00051\ \ \ \ \textcolor{keywordtype}{bool}\ \ \mbox{\hyperlink{struct_emm42___motor___status_flag_a8d963a104149808ea1a496712c5a0821}{Block\_Protect\_Flag}};\ \textcolor{comment}{/*堵转保护标志位*/}}
+\DoxyCodeLine{00052\ \};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{comment}{//Emm42步进驱动类}}
+\DoxyCodeLine{00057\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_emm42___v5__0___driver_a81945de4d7bd4c8bd73220a2a25e1d87}{Emm42\_V5\_0\_Driver}}\ \{}
+\DoxyCodeLine{00058\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{comment}{/*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓使能函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/}}
+\DoxyCodeLine{00061\ \ \ \ \ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_emm42___v5__0___driver_a038b487466f4d086a8d15a9631bebfc5}{serial\_enable}}()\{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ this-\/>serial-\/>begin(115200);\ \textcolor{comment}{//设置串口默认速率}}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ this-\/>is\_serial\_enable\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00070\ \ \ \ \ \}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\_CMDstatus}}\ \mbox{\hyperlink{class_emm42___v5__0___driver_affb7e61118d67885f1084fc89deb99b2}{Emm\_V5\_Motor\_enable}}()\{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{comment}{//初始化串口}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_emm42___v5__0___driver_a038b487466f4d086a8d15a9631bebfc5}{serial\_enable}}();}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{comment}{//串口初始成功就执行电机使能}}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(is\_serial\_enable\ ==\ \textcolor{keyword}{true})\{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ uint8\_t\ len\ =\ 6;}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{comment}{//命令格式：地址\ +\ 0xF3\ +\ 0xAB\ +\ 使能状态\ +\ 多机同步标志\ +\ 校验字节}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ uint8\_t\ cmd[6]\ =\ \{id,0xF3,0xAB,0x01,0x00,check\_Byte\};}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{comment}{//发送使能指令}}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ send(cmd,len);\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{comment}{//接受电机返回值}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ read(cmd,4);}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{comment}{//根据返回值判断命令执行状态}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (cmd[2])}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0x02:}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ Motor\_Status.Enable\_Flag\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd}{Emm42\_OK}};}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0xE2:}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ Motor\_Status.Enable\_Flag\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca4506d122ebf18972e04b1130ac893c95}{Emm42\_False}};}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0xEE:}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ Motor\_Status.Enable\_Flag\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}{Emm42\_Error}};}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ Motor\_Status.Enable\_Flag\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}{Emm42\_Error}};}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ Motor\_Status.Enable\_Flag\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac2faefff617b8af2f81ed865b25f4bfe}{Emm42\_SerialError}}\ ;\ \ \ }
+\DoxyCodeLine{00113\ \ \ \ \ \}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ }
+\DoxyCodeLine{00122\ \ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\_CMDstatus}}\ \mbox{\hyperlink{class_emm42___v5__0___driver_af6a24ceb71c1a73c67236811f3c06230}{sync\_Motor\_enable}}()\{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ uint8\_t\ cmd[16]\ =\ \{0\};}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \textcolor{comment}{//装载命令}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ cmd[0]\ =\ id;\ \ \ \ \ \ \ \textcolor{comment}{//控制目标电机}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ cmd[1]\ =\ 0xFF;\ \ \ \ \ \textcolor{comment}{//功能码}}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ cmd[2]\ =\ 0x66;\ \ \ \ \ \textcolor{comment}{//辅助码}}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ cmd[3]\ =\ this-\/>check\_Byte;\ \textcolor{comment}{//校验码}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ }
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \textcolor{comment}{//发送命令}}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ send(cmd,4);}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \textcolor{comment}{//读取返回}}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ read(cmd,4);}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \textcolor{keywordflow}{if}(cmd[2]\ ==\ 0xE2)\{}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca4506d122ebf18972e04b1130ac893c95}{Emm42\_False}};}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(cmd[2]\ ==\ 0xEE)\{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}{Emm42\_Error}};}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd}{Emm42\_OK}};}
+\DoxyCodeLine{00141\ \ \ \ \ \}}
+\DoxyCodeLine{00142\ \textcolor{comment}{/*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \textcolor{comment}{/*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓控制函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/}}
+\DoxyCodeLine{00146\ \ \ \ \ }
+\DoxyCodeLine{00153\ \ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\_CMDstatus}}\ \mbox{\hyperlink{class_emm42___v5__0___driver_a600af347b31bdbc766b15696da1e944b}{Emm\_V5\_Reset\_CurPos\_To\_Zero}}()\{}
+\DoxyCodeLine{00154\ \ \ \ \ \ uint8\_t\ cmd[16]\ =\ \{0\};}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \ \ \ \textcolor{comment}{//装载命令}}
+\DoxyCodeLine{00157\ \ \ \ \ \ cmd[0]\ =\ id;\ \ \ \ \ \ \ \textcolor{comment}{//控制目标电机}}
+\DoxyCodeLine{00158\ \ \ \ \ \ cmd[1]\ =\ 0x0A;\ \ \ \ \ \textcolor{comment}{//功能码}}
+\DoxyCodeLine{00159\ \ \ \ \ \ cmd[2]\ =\ 0x6D;\ \ \ \ \ \textcolor{comment}{//辅助码}}
+\DoxyCodeLine{00160\ \ \ \ \ \ cmd[3]\ =\ this-\/>check\_Byte;\ \textcolor{comment}{//校验码}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \textcolor{comment}{//发送命令}}
+\DoxyCodeLine{00162\ \ \ \ \ \ send(cmd,4);}
+\DoxyCodeLine{00163\ \ \ \ \ \ \textcolor{comment}{//读取返回}}
+\DoxyCodeLine{00164\ \ \ \ \ \ read(cmd,4);}
+\DoxyCodeLine{00165\ \ \ \ \ \ \textcolor{keywordflow}{if}(cmd[2]==0xEE)}
+\DoxyCodeLine{00166\ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}{Emm42\_Error}};}
+\DoxyCodeLine{00167\ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd}{Emm42\_OK}};}
+\DoxyCodeLine{00168\ \ \ \ \}}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00179\ \ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\_CMDstatus}}\ \mbox{\hyperlink{class_emm42___v5__0___driver_ad8c01a77331ee5fcc2d0e2b3ccbb3951}{Emm\_V5\_Vel\_Control}}(uint8\_t\ dir,uint16\_t\ vel,\textcolor{keywordtype}{bool}\ snF\ =\ \textcolor{keyword}{false},uint8\_t\ acc=0)\{}
+\DoxyCodeLine{00180\ \ \ \ \ \ uint8\_t\ cmd[16]\ =\ \{0\};}
+\DoxyCodeLine{00181\ \ \ \ \ \ \textcolor{comment}{//对速度限制函数}}
+\DoxyCodeLine{00182\ \ \ \ \ \ vel\ =\ vel>5000?5000:vel;}
+\DoxyCodeLine{00183\ \ \ \ \ \ vel\ =\ vel<0?0:vel;}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \ \ \ \ \ \textcolor{comment}{//装载命令\ \ 命令格式：地址\ +\ 0xF6\ +\ 方向\ +\ 速度\ +\ 加速度\ +\ 多机同步标志\ +\ 校验字节}}
+\DoxyCodeLine{00186\ \ \ \ \ \ cmd[0]\ =\ id;\ \ \ \ \ \ \ \textcolor{comment}{//控制目标电机}}
+\DoxyCodeLine{00187\ \ \ \ \ \ cmd[1]\ =\ 0xF6;\ \ \ \ \ \textcolor{comment}{//功能码}}
+\DoxyCodeLine{00188\ \ \ \ \ \ cmd[2]\ =\ dir;\ \ \ \ \ \ \textcolor{comment}{//方向}}
+\DoxyCodeLine{00189\ \ \ \ \ \ cmd[3]\ =\ (uint8\_t)vel>>8;\ \ \textcolor{comment}{//速度高8位}}
+\DoxyCodeLine{00190\ \ \ \ \ \ cmd[4]\ =\ (uint8\_t)vel;\ \ \ \ \ \textcolor{comment}{//速度低8位}}
+\DoxyCodeLine{00191\ \ \ \ \ \ cmd[5]\ =\ acc;\ \ \ \ \ \ \textcolor{comment}{//加速度}}
+\DoxyCodeLine{00192\ \ \ \ \ \ cmd[6]\ =\ snF;\ \ \ \ \ \ \textcolor{comment}{//多机同步标志}}
+\DoxyCodeLine{00193\ \ \ \ \ \ cmd[7]\ =\ this-\/>check\_Byte;\ \textcolor{comment}{//校验码}}
+\DoxyCodeLine{00194\ \ \ \ \ \ \textcolor{comment}{//发送}}
+\DoxyCodeLine{00195\ \ \ \ \ \ send(cmd,8);}
+\DoxyCodeLine{00196\ \ \ \ \ \ \textcolor{comment}{//命令返回：地址\ +\ 0xF6\ +\ 命令状态\ +\ 校验字节}}
+\DoxyCodeLine{00197\ \ \ \ \ \ read(cmd,4);}
+\DoxyCodeLine{00198\ \ \ \ \ \ \textcolor{keywordflow}{if}(cmd[2]==\ 0x02)\{}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd}{Emm42\_OK}};}
+\DoxyCodeLine{00200\ \ \ \ \ \ \}\textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(cmd[2]==\ 0xE2)\{}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca4506d122ebf18972e04b1130ac893c95}{Emm42\_False}};}
+\DoxyCodeLine{00202\ \ \ \ \ \ \}}
+\DoxyCodeLine{00203\ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}{Emm42\_Error}};}
+\DoxyCodeLine{00204\ \ \ \ \ \}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00216\ \ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\_CMDstatus}}\ \mbox{\hyperlink{class_emm42___v5__0___driver_ae87d41a234a1e428a94503d3571219bf}{Emm\_V5\_Pos\_Control}}(uint8\_t\ dir,\ uint16\_t\ vel,\ \ uint32\_t\ clk,\ \textcolor{keywordtype}{bool}\ snF=\textcolor{keyword}{false},\ \textcolor{keywordtype}{bool}\ raF=\textcolor{keyword}{true},uint8\_t\ acc=0)}
+\DoxyCodeLine{00217\ \ \ \ \ \{}
+\DoxyCodeLine{00218\ \ \ \ \ uint8\_t\ cmd[16]\ =\ \{0\};}
+\DoxyCodeLine{00219\ \ \ \ \ \textcolor{comment}{//对速度限制函数}}
+\DoxyCodeLine{00220\ \ \ \ \ vel\ =\ vel>5000?5000:vel;}
+\DoxyCodeLine{00221\ \ \ \ \ vel\ =\ vel<0?0:vel;}
+\DoxyCodeLine{00222\ \ \ \ \ \textcolor{comment}{//装载命令}}
+\DoxyCodeLine{00223\ \ \ \ \ \textcolor{comment}{//命令格式：地址\ +0xFD+\ 方向\ +\ 速度+\ 加速度\ +\ 脉冲数\ +\ 相对/绝对模式标志+\ 多机同步标志\ +\ 校验字节}}
+\DoxyCodeLine{00224\ \ \ \ \ cmd[0]\ =\ this-\/>id;\ \ }
+\DoxyCodeLine{00225\ \ \ \ \ cmd[1]\ \ =\ \ 0xFD;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 功能码}}
+\DoxyCodeLine{00226\ \ \ \ \ cmd[2]\ \ =\ \ dir;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 方向}}
+\DoxyCodeLine{00227\ \ \ \ \ cmd[3]\ \ =\ \ (uint8\_t)(vel\ >>\ 8);\ \ \ \ \ \ \ \textcolor{comment}{//\ 速度(RPM)高8位字节}}
+\DoxyCodeLine{00228\ \ \ \ \ cmd[4]\ \ =\ \ (uint8\_t)(vel\ >>\ 0);\ \ \ \ \ \ \ \textcolor{comment}{//\ 速度(RPM)低8位字节\ }}
+\DoxyCodeLine{00229\ \ \ \ \ cmd[5]\ \ =\ \ acc;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 加速度，注意：0是直接启动}}
+\DoxyCodeLine{00230\ \ \ \ \ cmd[6]\ \ =\ \ (uint8\_t)(clk\ >>\ 24);\ \ \ \ \ \ \textcolor{comment}{//\ 脉冲数(bit24\ -\/\ bit31)}}
+\DoxyCodeLine{00231\ \ \ \ \ cmd[7]\ \ =\ \ (uint8\_t)(clk\ >>\ 16);\ \ \ \ \ \ \textcolor{comment}{//\ 脉冲数(bit16\ -\/\ bit23)}}
+\DoxyCodeLine{00232\ \ \ \ \ cmd[8]\ \ =\ \ (uint8\_t)(clk\ >>\ 8);\ \ \ \ \ \ \ \textcolor{comment}{//\ 脉冲数(bit8\ \ -\/\ bit15)}}
+\DoxyCodeLine{00233\ \ \ \ \ cmd[9]\ \ =\ \ (uint8\_t)(clk\ >>\ 0);\ \ \ \ \ \ \ \textcolor{comment}{//\ 脉冲数(bit0\ \ -\/\ bit7\ )}}
+\DoxyCodeLine{00234\ \ \ \ \ cmd[10]\ =\ \ raF;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 相位/绝对标志，false为相对运动，true为绝对值运动}}
+\DoxyCodeLine{00235\ \ \ \ \ cmd[11]\ =\ \ snF;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 多机同步运动标志，false为不启用，true为启用}}
+\DoxyCodeLine{00236\ \ \ \ \ cmd[12]\ =\ \ this-\/>check\_Byte;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 校验字节}}
+\DoxyCodeLine{00237\ \ \ \ \ \textcolor{comment}{//发送命令}}
+\DoxyCodeLine{00238\ \ \ \ \ send(cmd,13);}
+\DoxyCodeLine{00239\ \ \ \ \ \textcolor{comment}{//读取返回命令}}
+\DoxyCodeLine{00240\ \ \ \ \ \textcolor{comment}{//命令返回：地址\ +\ 0xFD\ +\ 命令状态\ +\ 校验字节}}
+\DoxyCodeLine{00241\ \ \ \ \ read(cmd,4);}
+\DoxyCodeLine{00242\ \ \ \ \ \textcolor{keywordflow}{if}(cmd[2]\ ==\ 0x02)\{}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd}{Emm42\_OK}};}
+\DoxyCodeLine{00244\ \ \ \ \ \}\textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(cmd[2]==0xE2)\{}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca4506d122ebf18972e04b1130ac893c95}{Emm42\_False}};}
+\DoxyCodeLine{00246\ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}{Emm42\_Error}};\ }
+\DoxyCodeLine{00248\ \ \ \ \ \};}
+\DoxyCodeLine{00249\ \ \ \ \ \}}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00257\ \ \ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\_CMDstatus}}\ \mbox{\hyperlink{class_emm42___v5__0___driver_a9022b5abcb5173933e669bbf0d28151a}{Emm\_V5\_Stop\_Now}}(\textcolor{keywordtype}{bool}\ snF\ =\ \textcolor{keyword}{false})}
+\DoxyCodeLine{00258\ \ \ \ \ \{}
+\DoxyCodeLine{00259\ \ \ \ \ uint8\_t\ cmd[16]\ =\ \{0\};}
+\DoxyCodeLine{00260\ \ \ \ \ }
+\DoxyCodeLine{00261\ \ \ \ \ \textcolor{comment}{//\ 装载命令}}
+\DoxyCodeLine{00262\ \ \ \ \ \textcolor{comment}{//命令格式：地址\ +\ 0xFE\ +\ 0x98\ +\ 多机同步标志\ +\ 校验字节}}
+\DoxyCodeLine{00263\ \ \ \ \ cmd[0]\ =\ \ id;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 地址}}
+\DoxyCodeLine{00264\ \ \ \ \ cmd[1]\ =\ \ 0xFE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 功能码}}
+\DoxyCodeLine{00265\ \ \ \ \ cmd[2]\ =\ \ 0x98;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 辅助码}}
+\DoxyCodeLine{00266\ \ \ \ \ cmd[3]\ =\ \ snF;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 多机同步运动标志}}
+\DoxyCodeLine{00267\ \ \ \ \ cmd[4]\ =\ \ this-\/>check\_Byte;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 校验字节}}
+\DoxyCodeLine{00268\ \ \ \ \ \textcolor{comment}{//\ 发送命令}}
+\DoxyCodeLine{00269\ \ \ \ \ send(cmd,\ 5);}
+\DoxyCodeLine{00270\ \ \ \ \ \textcolor{comment}{//\ 读取电机回传命令}}
+\DoxyCodeLine{00271\ \ \ \ \ \textcolor{comment}{//\ 命令返回：地址\ +\ 0xFE\ +\ 命令状态\ +\ 校验字节}}
+\DoxyCodeLine{00272\ \ \ \ \ read(cmd,4);}
+\DoxyCodeLine{00273\ \ \ \ \ \textcolor{keywordflow}{if}(cmd[2]\ ==\ 0x02)\{}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd}{Emm42\_OK}};}
+\DoxyCodeLine{00275\ \ \ \ \ \}\textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(cmd[2]\ ==\ 0xE2)\{}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca4506d122ebf18972e04b1130ac893c95}{Emm42\_False}};}
+\DoxyCodeLine{00277\ \ \ \ \ \}}
+\DoxyCodeLine{00278\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}{Emm42\_Error}};}
+\DoxyCodeLine{00279\ \ \ \ \ \}}
+\DoxyCodeLine{00280\ }
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \textcolor{comment}{/*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/}}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ \textcolor{comment}{/*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓回零函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/}}
+\DoxyCodeLine{00285\ \ \ \ }
+\DoxyCodeLine{00292\ \ \ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\_CMDstatus}}\ \mbox{\hyperlink{class_emm42___v5__0___driver_ac2c90600ec602bb2756248f2632bcc25}{Emm\_V5\_TriggerToZero}}(\textcolor{keywordtype}{bool}\ snF\ =\ \textcolor{keyword}{false},uint8\_t\ o\_mode\ =\ 2)\{}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ uint8\_t\ cmd[16]\ =\ \{0\};}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 装载命令}}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \textcolor{comment}{//命令格式：地址\ +\ 0x9A\ +\ 回零模式\ +\ 多机同步标志\ +\ 校验字节}}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ cmd[0]\ =\ \ id;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 地址(如果想要一键全部回零，cmd[0]\ =\ 0\ 则是广播回零)}}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ cmd[1]\ =\ \ 0x9A;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 功能码}}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ cmd[2]\ =\ \ o\_mode;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 回零模式，0为单圈就近回零，1为单圈方向回零，2为多圈无限位碰撞回零，3为多圈有限位开关回零}}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ cmd[3]\ =\ \ snF;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 多机同步运动标志，false为不启用，true为启用}}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ cmd[4]\ =\ \ this-\/>check\_Byte;\ \ \ \ \textcolor{comment}{//\ 校验字节\ \ }}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 发送命令}}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ send(cmd,5);}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 接受命令}}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 命令返回：地址\ +\ 0x9A\ +\ 命令状态\ +\ 校验字节}}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ read(cmd,4);}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(cmd[2]\ ==\ 0x02)\{}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd}{Emm42\_OK}};}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(cmd[2]\ ==\ 0xE2)\{}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca4506d122ebf18972e04b1130ac893c95}{Emm42\_False}};}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}{Emm42\_Error}};}
+\DoxyCodeLine{00313\ \ \ \ \ \}}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ \ \ \ \ }
+\DoxyCodeLine{00320\ \ \ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\_CMDstatus}}\ \mbox{\hyperlink{class_emm42___v5__0___driver_a49f43ae6da5c5ae2a9e26fe4a1c26f53}{Emm\_V5\_ReadZeroParam}}()\{}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ uint8\_t\ cmd[3]\ =\ \{0\};}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ uint8\_t\ data[18]\ =\ \{0\};}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 装载命令}}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 命令格式：地址\ +\ 0x22\ +\ 校验字节}}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ cmd[0]\ =\ id;}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ cmd[1]\ =\ 0x22;}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ cmd[2]\ =\ this-\/>check\_Byte;}
+\DoxyCodeLine{00329\ }
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 发送命令}}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ send(cmd,3);}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ delay(10);}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 接受命令}}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(this-\/>serial-\/>available()==4)\{}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ serial-\/>flush();}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}{Emm42\_Error}};}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ read(data,18);}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ this-\/>zero\_Param.mode\ =\ data[2];}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ this-\/>zero\_Param.dir\ \ =\ data[3];}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ this-\/>zero\_Param.Rpm\ \ =\ (uint16\_t)data[4]<<8\ |\ data[5];}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ this-\/>zero\_Param.OutTime\ =\ (uint32\_t)data[6]<<24\ |\ (uint32\_t)data[7]<<16\ |\ (uint32\_t)data[8]<<8\ |\ data[9];}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ this-\/>zero\_Param.Senless\_CheckRPM\ =\ (uint16\_t)data[10]<<8\ |\ data[11];}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ this-\/>zero\_Param.Senless\_CheckMA\ =\ (uint16\_t)data[12]<<8\ |\ data[13];}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ this-\/>zero\_Param.Senless\_CheckTime\ =\ (uint16\_t)data[14]<<8\ |\ data[15];}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ this-\/>zero\_Param.auto\_ToZero\_Flag\ =\ data[16];}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd}{Emm42\_OK}};}
+\DoxyCodeLine{00348\ \ \ \ \ \}}
+\DoxyCodeLine{00349\ \ \ \ \ }
+\DoxyCodeLine{00364\ \ \ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\_CMDstatus}}\ \mbox{\hyperlink{class_emm42___v5__0___driver_ab89b1a021eef3394dfc0b9524d5f8082}{Emm\_V5\_Modify\_ZeroParams}}(\ \ uint8\_t\ o\_mode,\ uint8\_t\ o\_dir,\ uint16\_t\ o\_vel,\ uint32\_t\ o\_tm,\ uint16\_t\ sl\_vel,\ uint16\_t\ sl\_ma,\ uint16\_t\ sl\_ms,\ \textcolor{keywordtype}{bool}\ potF,\textcolor{keywordtype}{bool}\ svF\ =\ \textcolor{keyword}{true})}
+\DoxyCodeLine{00365\ \ \ \ \ \{}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ uint8\_t\ cmd[32]\ =\ \{0\};}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 装载命令}}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ cmd[0]\ =\ \ id;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 地址}}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ cmd[1]\ =\ \ 0x4C;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 功能码}}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ cmd[2]\ =\ \ 0xAE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 辅助码}}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ cmd[3]\ =\ \ svF;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 是否存储标志，false为不存储，true为存储}}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ cmd[4]\ =\ \ o\_mode;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 回零模式，0为单圈就近回零，1为单圈方向回零，2为多圈无限位碰撞回零，3为多圈有限位开关回零}}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ cmd[5]\ =\ \ o\_dir;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 回零方向}}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ cmd[6]\ \ =\ \ (uint8\_t)(o\_vel\ >>\ 8);\ \ \ \ \ \textcolor{comment}{//\ 回零速度(RPM)高8位字节}}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ cmd[7]\ \ =\ \ (uint8\_t)(o\_vel\ >>\ 0);\ \ \ \ \ \textcolor{comment}{//\ 回零速度(RPM)低8位字节\ }}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ cmd[8]\ \ =\ \ (uint8\_t)(o\_tm\ >>\ 24);\ \ \ \ \ \textcolor{comment}{//\ 回零超时时间(bit24\ -\/\ bit31)}}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ cmd[9]\ \ =\ \ (uint8\_t)(o\_tm\ >>\ 16);\ \ \ \ \ \textcolor{comment}{//\ 回零超时时间(bit16\ -\/\ bit23)}}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ cmd[10]\ =\ \ (uint8\_t)(o\_tm\ >>\ 8);\ \ \ \ \ \ \textcolor{comment}{//\ 回零超时时间(bit8\ \ -\/\ bit15)}}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ cmd[11]\ =\ \ (uint8\_t)(o\_tm\ >>\ 0);\ \ \ \ \ \ \textcolor{comment}{//\ 回零超时时间(bit0\ \ -\/\ bit7\ )}}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ cmd[12]\ =\ \ (uint8\_t)(sl\_vel\ >>\ 8);\ \ \ \ \textcolor{comment}{//\ 无限位碰撞回零检测转速(RPM)高8位字节}}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ cmd[13]\ =\ \ (uint8\_t)(sl\_vel\ >>\ 0);\ \ \ \ \textcolor{comment}{//\ 无限位碰撞回零检测转速(RPM)低8位字节\ }}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ cmd[14]\ =\ \ (uint8\_t)(sl\_ma\ >>\ 8);\ \ \ \ \ \textcolor{comment}{//\ 无限位碰撞回零检测电流(Ma)高8位字节}}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ cmd[15]\ =\ \ (uint8\_t)(sl\_ma\ >>\ 0);\ \ \ \ \ \textcolor{comment}{//\ 无限位碰撞回零检测电流(Ma)低8位字节\ }}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ cmd[16]\ =\ \ (uint8\_t)(sl\_ms\ >>\ 8);\ \ \ \ \ \textcolor{comment}{//\ 无限位碰撞回零检测时间(Ms)高8位字节}}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ cmd[17]\ =\ \ (uint8\_t)(sl\_ms\ >>\ 0);\ \ \ \ \ \textcolor{comment}{//\ 无限位碰撞回零检测时间(Ms)低8位字节}}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ cmd[18]\ =\ \ potF;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 上电自动触发回零，false为不使能，true为使能}}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ cmd[19]\ =\ \ this-\/>check\_Byte;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 校验字节}}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 发送命令}}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ send(cmd,20);}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 读取接收的命令}}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ read(cmd,4);}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(cmd[2]\ ==\ 0x02)\{}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd}{Emm42\_OK}};}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}{Emm42\_Error}};\ \ }
+\DoxyCodeLine{00397\ \ \ \ \ \}}
+\DoxyCodeLine{00398\ }
+\DoxyCodeLine{00403\ \ \ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\_CMDstatus}}\ \mbox{\hyperlink{class_emm42___v5__0___driver_a49fe0649bd86501650137f2c03f9eb28}{Emm\_V5\_ClearPos}}()\{}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ uint8\_t\ cmd[4]\ =\ \{0\};}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \textcolor{comment}{//装载命令}}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ cmd[0]\ =\ id;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 地址}}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ cmd[1]\ =\ 0x0A;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 功能码}}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ cmd[2]\ =\ 0x6D;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 状态码}}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ cmd[3]\ =\ this-\/>check\_Byte;\ \ \ \ \ \ \ \ \textcolor{comment}{//\ 校验字节}}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \textcolor{comment}{//发送命令}}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ send(cmd,4);}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \textcolor{comment}{//接受命令}}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ read(cmd,4);}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(cmd[2]\ ==\ 0x02)\{}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd}{Emm42\_OK}};}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}{Emm42\_Error}}\ ;}
+\DoxyCodeLine{00418\ \ \ \ \ \}}
+\DoxyCodeLine{00419\ \textcolor{comment}{/*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/}}
+\DoxyCodeLine{00420\ }
+\DoxyCodeLine{00421\ }
+\DoxyCodeLine{00422\ \textcolor{comment}{/*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓读取函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/}}
+\DoxyCodeLine{00427\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_emm42___v5__0___driver_a739ae944725dfc1b9ca304d13b08febf}{Emm\_V5\_ReadTargetPos}}()\{}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ uint8\_t\ cmd[16]\ =\ \{0\};}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \textcolor{comment}{//装载命令}}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \textcolor{comment}{//命令格式：地址\ +\ 0x33\ +\ 校验字节}}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ cmd[0]\ =\ id;}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ cmd[1]\ =\ 0x33;}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ cmd[2]\ =\ check\_Byte;}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \textcolor{comment}{//发送命令}}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ send(cmd,3);}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \textcolor{comment}{//接受命令}}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \textcolor{comment}{//命令返回：地址\ +\ 0x33\ +\ 符号\ +\ 电机目标位置\ +\ 校验字节}}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ delay(3);}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(serial-\/>available()==4)\{}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ serial-\/>flush();}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \ 0xFFFFFFFF;}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ \ \ read(cmd,8);}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ int32\_t\ data\ =\ (int32\_t)cmd[3]<<24\ |\ (int32\_t)cmd[4]<<16\ |\ (int32\_t)cmd[5]<<8\ |\ cmd[6];}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ data\ =\ cmd[2]==0x00?data:-\/data;}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{float})data*360/65536;}
+\DoxyCodeLine{00448\ \ \ \ \ \}}
+\DoxyCodeLine{00449\ }
+\DoxyCodeLine{00454\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_emm42___v5__0___driver_ac1c78913275fae36a96ac6fbd4e91bb2}{Emm\_V5\_ReadCurPos}}()\{}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ uint8\_t\ cmd[16]\ =\ \{0\};}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \textcolor{comment}{//装载命令}}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ cmd[0]\ =\ id;}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ cmd[1]\ =\ 0x36;}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ cmd[2]\ =\ check\_Byte;}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \textcolor{comment}{//发送命令}}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ send(cmd,3);}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \textcolor{comment}{//接受命令}}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ delay(3);}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (serial-\/>available()\ ==\ 4)\ \ \ }
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ serial-\/>flush();}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0xFFFFFFFF;}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \ \ read(cmd,8);}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ int32\_t\ data\ =\ (int32\_t)cmd[3]<<24\ |\ (int32\_t)cmd[4]<<16\ |\ (int32\_t)cmd[5]<<8\ |\ cmd[6];}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ data\ =\ cmd[2]==0x00?data:-\/data;}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{float})data*360/65536;}
+\DoxyCodeLine{00475\ \ \ \ \ \}}
+\DoxyCodeLine{00476\ }
+\DoxyCodeLine{00477\ }
+\DoxyCodeLine{00482\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{class_emm42___v5__0___driver_a73927adf220c8ca08e735a774025fb1e}{EmmV5\_ReadCurRPM}}()\{}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ uint8\_t\ cmd[16]\ =\ \{0\};}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ uint16\_t\ curRPM\ =\ 0;}
+\DoxyCodeLine{00485\ \ \ \ \ }
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \textcolor{comment}{//装载命令}}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ cmd[0]\ =\ id;}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ cmd[1]\ =\ 0x35;}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ cmd[2]\ =\ check\_Byte;}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \textcolor{comment}{//发送命令}}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ send(cmd,3);}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \textcolor{comment}{//接受命令}}
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ delay(1);}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(serial-\/>available()==4)\{}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ serial-\/>flush();}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \ 0xFFFF;}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \ \ \ \ read(cmd,6);}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \ \ \ \ curRPM\ =\ (uint16\_t)cmd[3]<<8\ |\ cmd[4];}
+\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ \ \ \ \ curRPM\ =\ cmd[2]==0x00?curRPM:-\/curRPM;}
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ curRPM;}
+\DoxyCodeLine{00503\ \ \ \ \ \}}
+\DoxyCodeLine{00504\ \ \ \ \ }
+\DoxyCodeLine{00505\ \ \ \ }
+\DoxyCodeLine{00510\ \ \ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\_CMDstatus}}\ \mbox{\hyperlink{class_emm42___v5__0___driver_a3b7e8e9e91be36483e0ffa81c1f7e359}{Emm\_V5\_Read\_MotorStatusFlag}}()\{}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ uint8\_t\ cmd[16]\ =\ \{0\};}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \textcolor{comment}{//装载命令}}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ cmd[0]\ =\ id;}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ cmd[1]\ =\ 0x3A;}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ cmd[2]\ =\ check\_Byte;}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \textcolor{comment}{//发送命令}}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ send(cmd,3);}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \textcolor{comment}{//接受命令}}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ read(cmd,4);}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(cmd[1]\ ==\ 0x00)\{}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}{Emm42\_Error}};}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ uint8\_t\ tmp\ =\ cmd[2];}
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ Motor\_Status.Enable\_Flag\ =\ tmp\ \&\ 0x01;}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ Motor\_Status.InPosition\_Flag\ =\ tmp\ \&\ 0x02;}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ Motor\_Status.Block\_Flag\ =\ tmp\ \&\ 0x04;}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ Motor\_Status.Block\_Protect\_Flag\ =\ tmp\ \&\ 0x08;}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd}{Emm42\_OK}};}
+\DoxyCodeLine{00529\ \ \ \ \ \}}
+\DoxyCodeLine{00530\ }
+\DoxyCodeLine{00531\ }
+\DoxyCodeLine{00536\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_emm42___v5__0___driver_ab1b2a33c8a2c7fda756aa36d0689a20f}{Emm\_V5\_Get\_InPositionFlag}}()\{}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Motor\_Status.InPosition\_Flag;}
+\DoxyCodeLine{00538\ \ \ \ \ \}}
+\DoxyCodeLine{00539\ \ \ \ \ \ }
+\DoxyCodeLine{00544\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_emm42___v5__0___driver_a5eb5949275fffbb441ec6ca691cdfbd4}{Emm\_V5\_Get\_EnableFlag}}()\{}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Motor\_Status.Enable\_Flag;}
+\DoxyCodeLine{00546\ \ \ \ \ \}}
+\DoxyCodeLine{00547\ }
+\DoxyCodeLine{00552\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_emm42___v5__0___driver_a3e22bebcc30c010b545c39b2013b758d}{Emm\_V5\_Get\_BlockFlag}}()\{}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Motor\_Status.Block\_Flag;}
+\DoxyCodeLine{00554\ \ \ \ \ \}}
+\DoxyCodeLine{00555\ }
+\DoxyCodeLine{00560\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_emm42___v5__0___driver_af40b7b3b8a28a08854b143959795bad8}{Emm\_V5\_Get\_BlockProtectFlag}}()\{}
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Motor\_Status.Block\_Protect\_Flag;}
+\DoxyCodeLine{00562\ \ \ \ \ \}}
+\DoxyCodeLine{00563\ }
+\DoxyCodeLine{00568\ \ \ \ \ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1c}{Emm42\_CMDstatus}}\ \mbox{\hyperlink{class_emm42___v5__0___driver_a6a16cbec3e91b3114d22029c69592914}{Emm\_V5\_Read\_Zero\_StatusFlag}}()\{}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ uint8\_t\ cmd[4]\ =\ \{0\};}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \textcolor{comment}{//装载命令}}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ cmd[0]\ =\ id;}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ cmd[1]\ =\ 0x3B;}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ cmd[2]\ =\ check\_Byte;}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \textcolor{comment}{//发送命令}}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ send(cmd,3);}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \textcolor{comment}{//接受命令}}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ read(cmd,4);}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(cmd[2]==0xEE)\{}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1cac13ad6e12285c3306b6005a183b82db1}{Emm42\_Error}};}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ uint8\_t\ tmp\ =\ cmd[2];}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ this-\/>zero\_StatusFlag.Coder\_Ready\_Flag\ =\ tmp\ \&\ 0x01;}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ this-\/>zero\_StatusFlag.CheckDirgram\_Flag\ =\ tmp\ \&\ 0x02;}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ this-\/>zero\_StatusFlag.Backing\_zero\_Flag\ =\ tmp\ \&\ 0x04;}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ this-\/>zero\_StatusFlag.Backing\_False\_Flag\ =\ tmp\ \&\ 0x08;}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a39dc0632bad5c787336867d5809f5d1ca401a231acfa4c54b907b3bd535d351bd}{Emm42\_OK}};}
+\DoxyCodeLine{00587\ \ \ \ \ \}}
+\DoxyCodeLine{00588\ }
+\DoxyCodeLine{00593\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_emm42___v5__0___driver_a49a67791c2628690be0b094238b8ef74}{Emm\_V5\_Get\_Coder\_Ready\_Flag}}()\{}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>zero\_StatusFlag.Coder\_Ready\_Flag;}
+\DoxyCodeLine{00595\ \ \ \ \ \}}
+\DoxyCodeLine{00596\ }
+\DoxyCodeLine{00601\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_emm42___v5__0___driver_ab1ed70714107aebc313d39fd04ea3314}{Emm\_V5\_Get\_CheckDirgram\_Flag}}()\{}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>zero\_StatusFlag.CheckDirgram\_Flag;}
+\DoxyCodeLine{00603\ \ \ \ \ \}}
+\DoxyCodeLine{00604\ }
+\DoxyCodeLine{00609\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_emm42___v5__0___driver_ac081694a1513689bdc3a99c9b6b8b4de}{Emm\_V5\_Get\_Backing\_zero\_Flag}}()\{}
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>zero\_StatusFlag.Backing\_zero\_Flag;}
+\DoxyCodeLine{00611\ \ \ \ \ \}}
+\DoxyCodeLine{00612\ }
+\DoxyCodeLine{00617\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_emm42___v5__0___driver_ab553cfe59ea48223ef461def954756c7}{Emm\_V5\_Get\_Backing\_False\_Flag}}()\{}
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>zero\_StatusFlag.Backing\_False\_Flag;}
+\DoxyCodeLine{00619\ \ \ \ \ \}}
+\DoxyCodeLine{00620\ \ \ \ \ }
+\DoxyCodeLine{00621\ \textcolor{comment}{/*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/}}
+\DoxyCodeLine{00622\ }
+\DoxyCodeLine{00623\ }
+\DoxyCodeLine{00624\ \textcolor{comment}{/*↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓构造函数↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓*/}}
+\DoxyCodeLine{00630\ \ \ \mbox{\hyperlink{class_emm42___v5__0___driver_a81945de4d7bd4c8bd73220a2a25e1d87}{Emm42\_V5\_0\_Driver}}()\{}
+\DoxyCodeLine{00631\ \ \ \ \ \textcolor{keywordtype}{id}\ =\ 1;}
+\DoxyCodeLine{00632\ \ \ \ \ this-\/>serial\ =\ \&Serial2;}
+\DoxyCodeLine{00633\ \ \ \ \ check\_Byte\ =\ 0x6B;}
+\DoxyCodeLine{00634\ \ \ \ \ is\_serial\_enable\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00635\ \ \ \ \ \textcolor{comment}{//读取电机当前的参数}}
+\DoxyCodeLine{00636\ \ \ \ \ \mbox{\hyperlink{class_emm42___v5__0___driver_a3b7e8e9e91be36483e0ffa81c1f7e359}{Emm\_V5\_Read\_MotorStatusFlag}}();}
+\DoxyCodeLine{00637\ \}}
+\DoxyCodeLine{00638\ }
+\DoxyCodeLine{00646\ \mbox{\hyperlink{class_emm42___v5__0___driver_a6532250fe3f7c2e384d9453324869586}{Emm42\_V5\_0\_Driver}}(HardwareSerial\ *Serial,uint8\_t\ ID,uint8\_t\ Check\_Byte\ =\ 0x6B)\{}
+\DoxyCodeLine{00647\ \ \ \ \ serial\ =\ Serial;}
+\DoxyCodeLine{00648\ \ \ \ \ \textcolor{keywordtype}{id}\ =\ ID;}
+\DoxyCodeLine{00649\ \ \ \ \ check\_Byte\ =\ Check\_Byte;}
+\DoxyCodeLine{00650\ \ \ \ \ is\_serial\_enable\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00651\ \ \ \ \ \textcolor{comment}{//读取电机当前参数}}
+\DoxyCodeLine{00652\ \ \ \ \ \mbox{\hyperlink{class_emm42___v5__0___driver_a3b7e8e9e91be36483e0ffa81c1f7e359}{Emm\_V5\_Read\_MotorStatusFlag}}();}
+\DoxyCodeLine{00653\ \}}
+\DoxyCodeLine{00654\ \textcolor{comment}{/*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/}}
+\DoxyCodeLine{00655\ }
+\DoxyCodeLine{00656\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00657\ \ \ \ \ HardwareSerial*serial;\textcolor{comment}{//设备绑定的串口}}
+\DoxyCodeLine{00658\ \ \ \ \ uint8\_t\ id;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//设备id}}
+\DoxyCodeLine{00659\ \ \ \ \ uint8\_t\ check\_Byte;\ \ \ \textcolor{comment}{//校验字节}}
+\DoxyCodeLine{00660\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_serial\_enable;\ \ \ \ \ \ \ \ \textcolor{comment}{//串口是否初始化}}
+\DoxyCodeLine{00661\ \ \ \ \ \textcolor{keywordtype}{bool}\ block\_protect;\ \ \ \textcolor{comment}{//堵转保护(默认开启)}}
+\DoxyCodeLine{00662\ \ \ \ \ \mbox{\hyperlink{struct_emm42___motor___status_flag}{Emm42\_Motor\_StatusFlag}}\ \ Motor\_Status;\ \textcolor{comment}{//电机状态标志位}}
+\DoxyCodeLine{00663\ }
+\DoxyCodeLine{00664\ \ \ \ \ \textcolor{comment}{//\ 新添加的参数(需要后续添加到构造函数中去的)}}
+\DoxyCodeLine{00665\ \ \ \ \ \mbox{\hyperlink{struct_emm42___zero___param}{Emm42\_Zero\_Param}}\ zero\_Param;\ \textcolor{comment}{//回零参数}}
+\DoxyCodeLine{00666\ \ \ \ \ \mbox{\hyperlink{struct_emm42___zero___status_flag}{Emm42\_Zero\_StatusFlag}}\ zero\_StatusFlag;\ \textcolor{comment}{//回零状态标志位}}
+\DoxyCodeLine{00667\ }
+\DoxyCodeLine{00668\ }
+\DoxyCodeLine{00675\ \ \ \ \ \textcolor{keywordtype}{void}\ send(uint8\_t*data,uint8\_t\ len)\{}
+\DoxyCodeLine{00676\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(serial-\/>available())\{}
+\DoxyCodeLine{00677\ \ \ \ \ \ \ \ \ \ \ \ \ serial-\/>flush();}
+\DoxyCodeLine{00678\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00679\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i\ =\ 0;\ i<len;++i)\{}
+\DoxyCodeLine{00680\ \ \ \ \ \ \ \ \ \ \ \ \ serial-\/>write(data[i]);}
+\DoxyCodeLine{00681\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00682\ \ \ \ \ \ \ \ \ delay(1);}
+\DoxyCodeLine{00683\ \ \ \ \ \}}
+\DoxyCodeLine{00684\ \ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00685\ \textcolor{comment}{\ \ \ \ *\ @brief\ \ \ \ 读取串口数据}}
+\DoxyCodeLine{00686\ \textcolor{comment}{\ \ \ \ *\ @param\ \ \ \ data:存放的数组}}
+\DoxyCodeLine{00687\ \textcolor{comment}{\ \ \ \ *\ @param\ \ \ \ len:\ 数据长度}}
+\DoxyCodeLine{00688\ \textcolor{comment}{\ \ \ \ *\ @param\ \ \ \ need\_delay：是否需要延时}}
+\DoxyCodeLine{00689\ \textcolor{comment}{\ \ \ \ *\ @retval\ \ \ 空}}
+\DoxyCodeLine{00690\ \textcolor{comment}{\ \ \ */}}
+\DoxyCodeLine{00691\ \ \ \ \ \textcolor{keywordtype}{void}\ read(uint8\_t\ *data,uint8\_t\ len,\textcolor{keywordtype}{bool}\ need\_delay\ =\ \textcolor{keyword}{true})\{}
+\DoxyCodeLine{00692\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(need\_delay)}
+\DoxyCodeLine{00693\ \ \ \ \ \ \ \ \ \ \ \ \ delay(1);}
+\DoxyCodeLine{00694\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{_emm42___v5_80___driver_8hpp_a01c3892c16d6330e486637967ab0289b}{MAX\_RETRY}};\ i++)\{}
+\DoxyCodeLine{00695\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>serial-\/>available())\{}
+\DoxyCodeLine{00696\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data[0]=this-\/>serial-\/>read();}
+\DoxyCodeLine{00697\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data[0]\ ==\ this-\/>\textcolor{keywordtype}{id})\{}
+\DoxyCodeLine{00698\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 1;\ j\ <\ len;\ j++)\{}
+\DoxyCodeLine{00699\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data[j]=this-\/>serial-\/>read();}
+\DoxyCodeLine{00700\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00701\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ;}
+\DoxyCodeLine{00702\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00703\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00704\ \ \ \ \ \ \ \ \ \ \ \ \ delay(1);}
+\DoxyCodeLine{00705\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00706\ \ \ \ \ \}}
+\DoxyCodeLine{00707\ \ \ \ \ \ }
+\DoxyCodeLine{00708\ \};}
+\DoxyCodeLine{00709\ }
+\DoxyCodeLine{00710\ }
+\DoxyCodeLine{00711\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ EMM42\_V5\_0\_DRIVER\_HPP\_\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

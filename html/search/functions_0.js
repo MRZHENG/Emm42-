@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['emm42_5fv5_5f0_5fdriver_0',['Emm42_V5_0_Driver',['../class_emm42___v5__0___driver.html#a81945de4d7bd4c8bd73220a2a25e1d87',1,'Emm42_V5_0_Driver::Emm42_V5_0_Driver()'],['../class_emm42___v5__0___driver.html#a6532250fe3f7c2e384d9453324869586',1,'Emm42_V5_0_Driver::Emm42_V5_0_Driver(HardwareSerial *Serial, uint8_t ID, uint8_t Check_Byte=0x6B)']]],
+  ['emm_5fv5_5fclearpos_1',['Emm_V5_ClearPos',['../class_emm42___v5__0___driver.html#a49fe0649bd86501650137f2c03f9eb28',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5fget_5fbacking_5ffalse_5fflag_2',['Emm_V5_Get_Backing_False_Flag',['../class_emm42___v5__0___driver.html#ab553cfe59ea48223ef461def954756c7',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5fget_5fbacking_5fzero_5fflag_3',['Emm_V5_Get_Backing_zero_Flag',['../class_emm42___v5__0___driver.html#ac081694a1513689bdc3a99c9b6b8b4de',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5fget_5fblockflag_4',['Emm_V5_Get_BlockFlag',['../class_emm42___v5__0___driver.html#a3e22bebcc30c010b545c39b2013b758d',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5fget_5fblockprotectflag_5',['Emm_V5_Get_BlockProtectFlag',['../class_emm42___v5__0___driver.html#af40b7b3b8a28a08854b143959795bad8',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5fget_5fcheckdirgram_5fflag_6',['Emm_V5_Get_CheckDirgram_Flag',['../class_emm42___v5__0___driver.html#ab1ed70714107aebc313d39fd04ea3314',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5fget_5fcoder_5fready_5fflag_7',['Emm_V5_Get_Coder_Ready_Flag',['../class_emm42___v5__0___driver.html#a49a67791c2628690be0b094238b8ef74',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5fget_5fenableflag_8',['Emm_V5_Get_EnableFlag',['../class_emm42___v5__0___driver.html#a5eb5949275fffbb441ec6ca691cdfbd4',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5fget_5finpositionflag_9',['Emm_V5_Get_InPositionFlag',['../class_emm42___v5__0___driver.html#ab1b2a33c8a2c7fda756aa36d0689a20f',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5fmodify_5fzeroparams_10',['Emm_V5_Modify_ZeroParams',['../class_emm42___v5__0___driver.html#ab89b1a021eef3394dfc0b9524d5f8082',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5fmotor_5fenable_11',['Emm_V5_Motor_enable',['../class_emm42___v5__0___driver.html#affb7e61118d67885f1084fc89deb99b2',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5fpos_5fcontrol_12',['Emm_V5_Pos_Control',['../class_emm42___v5__0___driver.html#ae87d41a234a1e428a94503d3571219bf',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5fread_5fmotorstatusflag_13',['Emm_V5_Read_MotorStatusFlag',['../class_emm42___v5__0___driver.html#a3b7e8e9e91be36483e0ffa81c1f7e359',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5fread_5fzero_5fstatusflag_14',['Emm_V5_Read_Zero_StatusFlag',['../class_emm42___v5__0___driver.html#a6a16cbec3e91b3114d22029c69592914',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5freadcurpos_15',['Emm_V5_ReadCurPos',['../class_emm42___v5__0___driver.html#ac1c78913275fae36a96ac6fbd4e91bb2',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5freadtargetpos_16',['Emm_V5_ReadTargetPos',['../class_emm42___v5__0___driver.html#a739ae944725dfc1b9ca304d13b08febf',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5freadzeroparam_17',['Emm_V5_ReadZeroParam',['../class_emm42___v5__0___driver.html#a49f43ae6da5c5ae2a9e26fe4a1c26f53',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5freset_5fcurpos_5fto_5fzero_18',['Emm_V5_Reset_CurPos_To_Zero',['../class_emm42___v5__0___driver.html#a600af347b31bdbc766b15696da1e944b',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5fstop_5fnow_19',['Emm_V5_Stop_Now',['../class_emm42___v5__0___driver.html#a9022b5abcb5173933e669bbf0d28151a',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5ftriggertozero_20',['Emm_V5_TriggerToZero',['../class_emm42___v5__0___driver.html#ac2c90600ec602bb2756248f2632bcc25',1,'Emm42_V5_0_Driver']]],
+  ['emm_5fv5_5fvel_5fcontrol_21',['Emm_V5_Vel_Control',['../class_emm42___v5__0___driver.html#ad8c01a77331ee5fcc2d0e2b3ccbb3951',1,'Emm42_V5_0_Driver']]],
+  ['emmv5_5freadcurrpm_22',['EmmV5_ReadCurRPM',['../class_emm42___v5__0___driver.html#a73927adf220c8ca08e735a774025fb1e',1,'Emm42_V5_0_Driver']]]
+];
