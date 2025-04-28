@@ -618,6 +618,14 @@ public:
         return this->zero_StatusFlag.Backing_False_Flag;
     }
     
+    /**
+     * @brief    判断电机是否回零成功
+     * @retval   bool返回电机是否回零成功
+     */
+    bool Emm_V5_BackZero_Success(){
+        return this->zero_StatusFlag.Backing_zero_Flag == 0 && this->zero_StatusFlag.Backing_False_Flag == 0;
+    }
+
 /*↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
 
 
